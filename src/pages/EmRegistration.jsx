@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "../api/axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import '../style/Employee.css';
 
 const CreateEmployeeForm = ({ form, setForm, createEmployee }) => {
   const [errors, setErrors] = useState({});
@@ -16,34 +17,41 @@ const CreateEmployeeForm = ({ form, setForm, createEmployee }) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
 
-    if (name === 'nic' && errors.nic) {
-      setErrors({...errors, nic: ''});
-    }
-
-    if(password === 'password' && errors.password) {
-      setErrors({...errors, password: ''});
+    // Clear error when typing
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: '' });
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
+    // Validate NIC
     if (!form.nic) {
-      setErrors({...errors, nic: 'NIC is required'});
-      return;
-    }
-    
-    if (!validateNIC(form.nic)) {
-      setErrors({...errors, nic: 'Please enter a valid NIC number (9 digits with V/X or 12 digits)'});
+      setErrors({ ...errors, nic: 'NIC is required' });
       return;
     }
 
-    if(form.password.length < 6) {
-      setErrors({...errors, password: 'Password must be at least 6 characters long'});
+    if (!validateNIC(form.nic)) {
+      setErrors({ ...errors, nic: 'Please enter a valid NIC number (9 digits with V/X or 12 digits)' });
       return;
     }
-    
+
+    // Validate Password
+    if (!form.password) {
+      setErrors({ ...errors, password: 'Password is required' });
+      return;
+    }
+
+    if (form.password.length < 6) {
+      setErrors({ ...errors, password: 'Password must be at least 6 characters long' });
+      return;
+    }
+
+
+
     createEmployee();
+
   };
 
   return (
@@ -105,20 +113,20 @@ const CreateEmployeeForm = ({ form, setForm, createEmployee }) => {
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label">Telephone Number</label>
+                <label className="form-label">Description</label>
                 <input
                   type="text"
-                  name="tp"
+                  name="description"
                   className="form-control"
-                  placeholder="TP"
-                  value={form.tp}
+                  placeholder="description"
+                  value={form.description}
                   onChange={handleInputChange}
                 />
               </div>
               <div className="mb-3">
                 <label className="form-label">WhatsApp Number</label>
                 <input
-                  type="text"
+                  type="Number"
                   name="whathappNo"
                   className="form-control"
                   placeholder="WhatsApp No"
@@ -150,12 +158,12 @@ const CreateEmployeeForm = ({ form, setForm, createEmployee }) => {
   );
 };
 
-const UpdateEmployeeModal = ({ 
-  showModal, 
-  setShowModal, 
-  selectedEmployee, 
-  setSelectedEmployee, 
-  updateEmployee 
+const UpdateEmployeeModal = ({
+  showModal,
+  setShowModal,
+  selectedEmployee,
+  setSelectedEmployee,
+  updateEmployee
 }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -166,17 +174,17 @@ const UpdateEmployeeModal = ({
   };
 
   return (
-    <div 
-      className={`modal fade ${showModal ? 'show d-block' : ''}`} 
+    <div
+      className={`modal fade ${showModal ? 'show d-block' : ''}`}
       style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
     >
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Update Employee</h5>
-            <button 
-              type="button" 
-              className="btn-close" 
+            <button
+              type="button"
+              className="btn-close"
               onClick={() => setShowModal(false)}
             ></button>
           </div>
@@ -192,7 +200,7 @@ const UpdateEmployeeModal = ({
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <label className="form-label">Password</label>
                 <input
                   type="password"
@@ -201,7 +209,7 @@ const UpdateEmployeeModal = ({
                   value={selectedEmployee.password}
                   onChange={handleInputChange}
                 />
-              </div>
+              </div> */}
               <div className="mb-3">
                 <label className="form-label">Full Name</label>
                 <input
@@ -216,9 +224,9 @@ const UpdateEmployeeModal = ({
                 <label className="form-label">Telephone</label>
                 <input
                   type="text"
-                  name="tp"
+                  name="description"
                   className="form-control"
-                  value={selectedEmployee.tp}
+                  value={selectedEmployee.description}
                   onChange={handleInputChange}
                 />
               </div>
@@ -245,16 +253,16 @@ const UpdateEmployeeModal = ({
             </form>
           </div>
           <div className="modal-footer">
-            <button 
-              type="button" 
-              className="btn btn-secondary" 
+            <button
+              type="button"
+              className="btn btn-secondary"
               onClick={() => setShowModal(false)}
             >
               Close
             </button>
-            <button 
-              type="button" 
-              className="btn btn-primary" 
+            <button
+              type="button"
+              className="btn btn-primary"
               onClick={updateEmployee}
             >
               Save Changes
@@ -274,7 +282,7 @@ function EmRegistration() {
     username: "",
     password: "",
     full_name: "",
-    tp: "",
+    description: "",
     whathappNo: "",
     city: ""
   });
@@ -284,7 +292,7 @@ function EmRegistration() {
     username: "",
     password: "",
     full_name: "",
-    tp: "",
+    description: "",
     whathappNo: "",
     city: ""
   });
@@ -313,13 +321,21 @@ function EmRegistration() {
         username: "",
         password: "",
         full_name: "",
-        tp: "",
+        description: "",
         whathappNo: "",
         city: ""
       });
+      alert("Employee created successfully");
     } catch (error) {
       console.error("Error creating employee:", error?.response || error);
-      alert("Failed to create employee");
+
+      if (error.response?.data?.message === 'Employee already exists') {
+        alert("Employee with this NIC already exists");
+      } else {
+        alert("Failed to create employee");
+
+      }
+
     }
   };
 
@@ -352,57 +368,57 @@ function EmRegistration() {
 
   const AllEmployeesTable = () => {
     if (!Array.isArray(employees)) {
-        return <div>Loading...</div>;
+      return <div>Loading...</div>;
     }
     if (employees.length === 0) {
-        return <div>No employees found.</div>;
+      return <div>No employees found.</div>;
     }
 
     return (
-        <div className="card">
-            <div className="card-header">
-                <h3>All Employees</h3>
-            </div>
-            <div className="card-body">
-                <table className="table table-hover align-middle mb-0">
-                    <thead className="bg-light">
-                        <tr>
-                            <th>Username</th>
-                            <th>Full Name</th>
-                            <th>TP</th>
-                            <th>WhatsApp No</th>
-                            <th>City</th>
-                            <th className="text-end">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {employees.map((employee) => (
-                            <tr key={employee._id}>
-                                <td>{employee.username}</td>
-                                <td>{employee.full_name}</td>
-                                <td>{employee.tp}</td>
-                                <td>{employee.whathappNo}</td>
-                                <td>{employee.city}</td>
-                                <td className="text-end">
-                                    <button
-                                        onClick={() => openUpdateModal(employee)}
-                                        className="btn btn-outline-warning btn-sm me-2"
-                                    >
-                                        <i className="bi bi-pencil-square me-1"></i>Update
-                                    </button>
-                                    <button
-                                        onClick={() => deleteEmployee(employee._id)}
-                                        className="btn btn-outline-danger btn-sm"
-                                    >
-                                        <i className="bi bi-trash me-1"></i>Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+      <div className="card">
+        <div className="card-header">
+          <h3>All Employees</h3>
         </div>
+        <div className="card-body">
+          <table className="table table-hover align-middle mb-0">
+            <thead className="bg-light">
+              <tr>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Description</th>
+                <th>WhatsApp No</th>
+                <th>City</th>
+                <th className="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employees.map((employee) => (
+                <tr key={employee._id}>
+                  <td>{employee.username}</td>
+                  <td>{employee.full_name}</td>
+                  <td>{employee.description}</td>
+                  <td>{employee.whathappNo}</td>
+                  <td>{employee.city}</td>
+                  <td className="text-end">
+                    <button
+                      onClick={() => openUpdateModal(employee)}
+                      className="btn btn-outline-warning btn-sm me-2"
+                    >
+                      <i className="bi bi-pencil-square me-1"></i>Update
+                    </button>
+                    <button
+                      onClick={() => deleteEmployee(employee._id)}
+                      className="btn btn-outline-danger btn-sm"
+                    >
+                      <i className="bi bi-trash me-1"></i>Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     );
   };
 
