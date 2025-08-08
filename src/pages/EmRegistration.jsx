@@ -163,7 +163,7 @@ const UpdateEmployeeModal = ({
   setShowModal,
   selectedEmployee,
   setSelectedEmployee,
-  updateEmployee
+  updateEmployee    
 }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
