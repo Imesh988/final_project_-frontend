@@ -31,7 +31,6 @@ function Login() {
         } catch (error) {
             console.error("Login failed:", error);
 
-            // More specific error messages
             if (error.response) {
                 if (error.response.status === 400) {
                     setError("Invalid username or password");

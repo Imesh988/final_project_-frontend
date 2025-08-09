@@ -26,7 +26,7 @@ const CreateEmployeeForm = ({ form, setForm, createEmployee }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate NIC
+    
     if (!form.nic) {
       setErrors({ ...errors, nic: 'NIC is required' });
       return;

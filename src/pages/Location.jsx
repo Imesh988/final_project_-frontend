@@ -11,7 +11,7 @@ const CreateLocation = ({ form, setForm, createLocation }) => {
         const { name, value } = e.target;
         setForm({ ...form, [name]: value });
 
-         if (errors[name]) {
+        if (errors[name]) {
             setErrors({ ...errors, [name]: '' });
         }
     }
@@ -20,17 +20,17 @@ const CreateLocation = ({ form, setForm, createLocation }) => {
         e.preventDefault();
 
         setErrors({});
-        
+
         const newErrors = {};
-        
-        if (!form.city ) {
+
+        if (!form.city) {
             newErrors.city = 'City is required';
         }
-        
-        if (!form.address ) {
+
+        if (!form.address) {
             newErrors.address = 'Address is required';
         }
-        
+
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
@@ -54,9 +54,9 @@ const CreateLocation = ({ form, setForm, createLocation }) => {
                                 value={form.city}
                                 onChange={handleInputChange}
                             />
-                             {errors.city && <div className="invalid-feedback">{errors.city}</div>}
+                            {errors.city && <div className="invalid-feedback">{errors.city}</div>}
                         </div>
-
+                        {/* 
                         <div className="mb-4">
                             <input type="text"
                                 name="address"
@@ -66,7 +66,15 @@ const CreateLocation = ({ form, setForm, createLocation }) => {
                                 onChange={handleInputChange}
                             />
                              {errors.address && <div className="invalid-feedback">{errors.address}</div>}
-                        </div>
+                        </div> */}
+
+                        <textarea name="address"
+                            id="address"
+                            className={`form-control ${errors.address ? 'is-invalid' : ''}`}
+                            placeholder="Enter the address"
+                            value={form.address}
+                            onChange={handleInputChange}
+                        ></textarea>
                         <div className="mb-4">
                             <button type="submit" className="btn btn-primary">
                                 Add the Location
