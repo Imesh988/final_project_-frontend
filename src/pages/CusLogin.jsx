@@ -4,51 +4,55 @@ import { useNavigate } from "react-router-dom";
 import '../style/CusLogin.css';
 
 function CusLogin() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-    const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     // Ensure video plays on mobile devices
-    //     const video = document.querySelector('.login-bg-video');
-    //     if (video) {
-    //         video.play().catch(error => {
-    //             console.log("Video autoplay prevented:", error);
-    //             // Fallback: mute and try to play again
-    //             video.muted = true;
-    //             video.play();
-    //         });
-    //     }
-    // }, []);
+  // useEffect(() => {
+  //     // Ensure video plays on mobile devices
+  //     const video = document.querySelector('.login-bg-video');
+  //     if (video) {
+  //         video.play().catch(error => {
+  //             console.log("Video autoplay prevented:", error);
+  //             // Fallback: mute and try to play again
+  //             video.muted = true;
+  //             video.play();
+  //         });
+  //     }
+  // }, []);
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError('');
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
 
-        try {
-            const response = await axios.post('http://localhost:5000/customer/login', {
-                username,
-                password
-            });
+    try {
+      const response = await axios.post('http://localhost:5000/customer/login', {
+        username,
+        password
+      });
 
-            if (response.data.msg === 'successful') {
-                navigate('/customer');
-            } else {
-                setError('Invalid username or password');
-            }
-        } catch (error) {
-            // ... (keep your existing error handling code)
-        } finally {
-            setLoading(false);
-        }
+      if (response.data.msg === 'successful') {
+        
+        navigate('/customer');
+      } else {
+        // console.log(response.data.msg);
+        setError(response.data.msg ||'Invalid username or password');
+      }
+    } catch (error) {
+       if (error.response) {
+        setError(error.response.data.msg || 'Login failed. Please try again.');
+      }   
+
+    } finally {
+      setLoading(false);
     }
+  }
 
-    return (
-       <div className="login-page">
-      {/* Fullscreen Video Background */}
+  return (
+    <div className="login-page">
       <video
         autoPlay
         loop
@@ -60,11 +64,10 @@ function CusLogin() {
         Your browser does not support HTML5 video.
       </video>
 
-      {/* Glass Morphism Login Card */}
       <div className="login-card-container">
         <div className="login-card">
-          <h2 className="login-title">Welcome Back</h2>
-          
+          <h2 className="login-title">Customer Login</h2>
+
           {error && (
             <div className="login-error">
               {error}
@@ -72,8 +75,8 @@ function CusLogin() {
           )}
 
           <form onSubmit={handleLogin} className="login-form">
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
+            <div className="form-group ">
+              <label htmlFor="username" className="text-white">Username</label>
               <input
                 id="username"
                 type="text"
@@ -84,7 +87,7 @@ function CusLogin() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password" className="text-white">Password</label>
               <input
                 id="password"
                 type="password"
@@ -106,7 +109,7 @@ function CusLogin() {
         </div>
       </div>
     </div>
-    )
+  )
 }
 
 export default CusLogin;

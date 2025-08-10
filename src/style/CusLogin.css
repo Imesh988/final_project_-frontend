@@ -38,7 +38,7 @@
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.25),
+    0 12px 40px rgba(223, 217, 217, 0.25),
     inset 0 2px 10px rgba(255, 255, 255, 0.1);
   transition: all 0.4s ease;
 }
@@ -90,6 +90,7 @@
   font-weight: 500;
   font-size: 0.9rem;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+
 }
 
 .form-group input {
@@ -114,8 +115,8 @@
 .login-form button {
   padding: 1rem;
   background: linear-gradient(135deg, 
-    rgba(66, 133, 244, 0.9), 
-    rgba(52, 168, 83, 0.9));
+    rgba(116, 117, 121, 0.9), 
+    rgba(115, 122, 117, 0.9));
   color: white;
   border: none;
   border-radius: 10px;
@@ -130,8 +131,8 @@
 
 .login-form button:hover {
   background: linear-gradient(135deg, 
-    rgba(51, 103, 214, 0.9), 
-    rgba(40, 142, 70, 0.9));
+    rgba(121, 123, 128, 0.9), 
+    rgba(216, 219, 217, 0.9));
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
@@ -164,4 +165,17 @@
   animation: spin 1s ease-in-out infinite;
   margin-right: 8px;
   vertical-align: middle;
+}
+
+/* .form-group label{
+  color: white;
+  font-weight: 500;
+  font-size: 0.9rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  font-style: italic;
+  font-style: bold;
+} */
+
+.login-title{
+  font-style: oblique;
 }
