@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
 import axios from '../api/axios';
 
-const EmployeeLoader = ({ onEmployeeSelect }) => {
+const EmployeeLoader = ({ onSelect, selectedId, error }) => {
   const [employees, setEmployees] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [selectedEmployee, setSelectedEmployee] = useState('');
+  const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
     const fetchEmployees = async () => {
       setIsLoading(true);
-      setError(null);
+      setFetchError(null);
       try {
         const response = await axios.get('/employee/getAll');
         setEmployees(Array.isArray(response.data?.employees) ? response.data.employees : []);
       } catch (err) {
-        setError('Failed to load employees');
+        setFetchError('Failed to load employees');
         console.error('Error fetching employees:', err);
       } finally {
         setIsLoading(false);
@@ -25,36 +24,30 @@ const EmployeeLoader = ({ onEmployeeSelect }) => {
     fetchEmployees();
   }, []);
 
-  const handleEmployeeChange = (e) => {
+  const handleChange = (e) => {
     const employeeId = e.target.value;
-    setSelectedEmployee(employeeId);
-    
-    if (employeeId && onEmployeeSelect) {
-      const selected = employees.find(emp => emp._id === employeeId);
-      onEmployeeSelect(selected);
-    } else {
-      onEmployeeSelect(null);
-    }
+    onSelect && onSelect(employeeId);
   };
 
   return (
     <div className="form-group">
       <label>Select Employee:</label>
       <select
-        className="employee-select"
-        value={selectedEmployee}
-        onChange={handleEmployeeChange}
+        className={`form-control ${error ? 'is-invalid' : ''}`}
+        value={selectedId}
+        onChange={handleChange}
         disabled={isLoading}
       >
         <option value="">--- Select Employee ---</option>
         {employees.map((employee) => (
           <option key={employee._id} value={employee._id}>
-            {employee.username} ({employee.whathappNo || 'No WhatsApp'})
+            {employee.username} 
           </option>
         ))}
       </select>
       {isLoading && <div className="loading">Loading employees...</div>}
-      {error && <div className="error">{error}</div>}
+      {fetchError && <div className="text-danger">{fetchError}</div>}
+      {error && <div className="invalid-feedback d-block">{error}</div>}
     </div>
   );
 };
