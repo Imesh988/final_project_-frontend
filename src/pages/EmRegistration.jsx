@@ -3,6 +3,7 @@ import axios from "../api/axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '../style/Employee.css';
+import LocationLoad from "./LocationLoad";
 
 const CreateEmployeeForm = ({ form, setForm, createEmployee }) => {
   const [errors, setErrors] = useState({});
@@ -23,10 +24,17 @@ const CreateEmployeeForm = ({ form, setForm, createEmployee }) => {
     }
   };
 
+  const handleLocationSelect = (locationId) => {
+    setForm({ ...form, location_id: locationId });
+    if (errors.location) {
+      setErrors({ ...errors, location: '' });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    
+
     if (!form.nic) {
       setErrors({ ...errors, nic: 'NIC is required' });
       return;
@@ -146,6 +154,13 @@ const CreateEmployeeForm = ({ form, setForm, createEmployee }) => {
                 />
               </div>
               <div className="mb-3">
+                <LocationLoad
+                  onSelect={handleLocationSelect}
+                  selectedId={form.location_id}
+                  error={errors.location}
+                />
+              </div>
+              <div className="mb-3">
                 <button type="submit" className="btn btn-primary">
                   Create Employee
                 </button>
@@ -163,7 +178,7 @@ const UpdateEmployeeModal = ({
   setShowModal,
   selectedEmployee,
   setSelectedEmployee,
-  updateEmployee    
+  updateEmployee
 }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -250,6 +265,18 @@ const UpdateEmployeeModal = ({
                   onChange={handleInputChange}
                 />
               </div>
+
+               <div className="form-group mb-3">
+                      <LocationLoad
+                        onSelect={(locationId) => {
+                          setSelectedEmployee(prev => ({
+                            ...prev,
+                            location_id: locationId
+                          }));
+                        }}
+                        selectedId={selectedEmployee.locationId}
+                      />
+                    </div>
             </form>
           </div>
           <div className="modal-footer">
@@ -284,7 +311,8 @@ function EmRegistration() {
     full_name: "",
     description: "",
     whathappNo: "",
-    city: ""
+    city: "",
+    location_id: ""
   });
   const [selectedEmployee, setSelectedEmployee] = useState({
     _id: "",
@@ -294,7 +322,8 @@ function EmRegistration() {
     full_name: "",
     description: "",
     whathappNo: "",
-    city: ""
+    city: "",
+    location_id: ""
   });
 
   const openUpdateModal = (employee) => {
@@ -323,7 +352,8 @@ function EmRegistration() {
         full_name: "",
         description: "",
         whathappNo: "",
-        city: ""
+        city: "",
+        location_id: ""
       });
       alert("Employee created successfully");
     } catch (error) {
@@ -388,6 +418,7 @@ function EmRegistration() {
                 <th>Description</th>
                 <th>WhatsApp No</th>
                 <th>City</th>
+                <th>Working Location</th>
                 <th className="text-end">Actions</th>
               </tr>
             </thead>
@@ -399,6 +430,9 @@ function EmRegistration() {
                   <td>{employee.description}</td>
                   <td>{employee.whathappNo}</td>
                   <td>{employee.city}</td>
+                  <td>
+                    {employee.location_id?.city || 'N/A'}
+                  </td>
                   <td className="text-end">
                     <button
                       onClick={() => openUpdateModal(employee)}
