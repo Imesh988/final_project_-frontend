@@ -11,13 +11,14 @@ function Login() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError("");
         try {
-            const response = await axios.post("http://localhost:5000/employee/login", {
+            const response = await axios.post("/employee/login", {
                 username,
                 password,
             });

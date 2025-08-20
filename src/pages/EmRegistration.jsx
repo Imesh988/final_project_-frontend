@@ -343,7 +343,8 @@ function EmRegistration() {
 
   const createEmployee = async () => {
     try {
-      await axios.post("/employee/create", form);
+      console.log("Form data:", form);
+      const response = await axios.post("/employee/create", form);
       fetchEmployees();
       setForm({
         nic: "",

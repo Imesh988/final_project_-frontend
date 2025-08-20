@@ -1,171 +1,254 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { FaBars, FaTimes, FaUser, FaShoppingCart, FaSearch } from "react-icons/fa";
-import "../style/NavigationCss.css"
+import { useState, useEffect, useRef } from "react";
+import {
+  FaBars,
+  FaTimes,
+  FaUser,
+  FaSearch,
+  FaTools,
+  FaPhoneAlt,
+  FaUserCircle,
+  FaCog,
+  FaSignOutAlt
+} from "react-icons/fa";
+import { GiAutoRepair } from "react-icons/gi";
+import './Navigation.css';
 
 const Navbar = () => {
-    
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const closeMenu = () => setIsOpen(false);
+  // Check if user is logged in on component mount and when localStorage changes
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const token = localStorage.getItem('token');
+      const userDataString = localStorage.getItem('userData');
+
+      setIsLoggedIn(!!token);
+
+
+      if (userDataString) {
+        try {
+          setUserData(JSON.parse(userDataString));
+        } catch (error) {
+          console.error('Error parsing user data:', error);
+          setUserData(null);
+        }
+      } else {
+        setUserData(null);
+      }
+    };
+
+    const handleLoginStatusChange = () => {
+      checkLoginStatus();
+    };
+
+    checkLoginStatus();
+
+    window.addEventListener('loginStatusChange', handleLoginStatusChange);
+
+    return () => {
+      window.removeEventListener('loginStatusChange', handleLoginStatusChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const signOut = () => {
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userData');
+
+      setIsLoggedIn(false);
+      setUserData(null);
+      setShowDropdown(false);
+
+      window.dispatchEvent(new CustomEvent('loginStatusChange'));
+
+      alert('Logout successful');
+
+      navigate('/cuslogin');
+
+    } catch (error) {
+      console.error('Logout error:', error);
+      alert('Error during logout. Please try again.');
+    }
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
       setSearchQuery("");
-      closeMenu();
     }
   };
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          {/* Logo/Brand */}
-          <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center">
-              <img
-                className="h-8 w-auto"
-                src="/logo.png"
-                alt="Your Logo"
-              />
-              <span className="ml-2 text-xl font-bold text-gray-900">YourBrand</span>
-            </Link>
+    <nav className="navbar navbar-expand-lg service-navbar">
+      <div className="container-fluid">
+        <Link className="navbar-brand logo-container" to="/">
+          <GiAutoRepair className="logo-icon" />
+          <span className="logo-text">AutoCare Pro</span>
+        </Link>
+
+        <div className="emergency-contact d-none d-lg-flex">
+          <FaPhoneAlt className="emergency-icon" />
+          <div>
+            <span className="emergency-label">Emergency Service</span>
+            <span className="emergency-number">077 123 4567</span>
           </div>
+        </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            <div className="flex space-x-8">
-              <NavLink to="/" text="Home" closeMenu={closeMenu} />
-              <NavLink to="/products" text="Products" closeMenu={closeMenu} />
-              <NavLink to="/about" text="About" closeMenu={closeMenu} />
-              <NavLink to="/contact" text="Contact" closeMenu={closeMenu} />
-            </div>
+        <button
+          className="navbar-toggler animated-toggler"
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-label="Toggle navigation"
+        >
+          {isOpen ? <FaTimes className="icon-close" /> : <FaBars className="icon-open" />}
+        </button>
 
-            {/* Search Bar */}
-            <form onSubmit={handleSearch} className="flex items-center">
+        <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarSupportedContent">
+          <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link service-link" to="/" onClick={() => setIsOpen(false)}>
+                <span className="link-number">01.</span> Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link service-link" to="/services" onClick={() => setIsOpen(false)}>
+                <span className="link-number">02.</span> Services
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link service-link" to="/booking" onClick={() => setIsOpen(false)}>
+                <span className="link-number">03.</span> Book Online
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link service-link" to="/about" onClick={() => setIsOpen(false)}>
+                <span className="link-number">04.</span> About Us
+              </Link>
+            </li>
+          </ul>
+
+          <div className="d-flex align-items-center nav-actions">
+            <form className="d-flex me-3 search-box" role="search" onSubmit={handleSearch}>
               <input
-                type="text"
-                placeholder="Search..."
-                className="px-3 py-1 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="form-control search-input"
+                type="search"
+                placeholder="Search services..."
+                aria-label="Search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-3 py-1 rounded-r-md hover:bg-blue-600 transition"
-              >
-                <FaSearch />
+              <button className="btn search-btn" type="submit">
+                <FaSearch className="search-icon" />
               </button>
             </form>
 
-            {/* Icons */}
-            <div className="flex items-center space-x-4 ml-4">
-              <Link to="/account" className="text-gray-700 hover:text-blue-600">
-                <FaUser className="h-5 w-5" />
-              </Link>
-              <Link to="/cart" className="text-gray-700 hover:text-blue-600 relative">
-                <FaShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  3
-                </span>
-              </Link>
-            </div>
-          </div>
+            <div className="user-dropdown-container" ref={dropdownRef}>
+              <button
+                className="user-bubble"
+                onClick={() => setShowDropdown(!showDropdown)}
+                aria-expanded={showDropdown}
+              >
+                <FaUser />
+              </button>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={toggleMenu}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none"
-            >
-              {isOpen ? <FaTimes className="h-6 w-6" /> : <FaBars className="h-6 w-6" />}
-            </button>
+             {showDropdown && (
+                <div className="user-dropdown-menu">
+                  {isLoggedIn ? (
+                    <>
+                      <div className="dropdown-header">
+                        <div className="user-welcome">Welcome back!</div>
+                        {userData && (
+                          <div className="user-name">{ userData.username}</div>
+                        )}
+                      </div>
+                      <div className="dropdown-divider"></div>
+                      <Link 
+                        to="/account" 
+                        className="dropdown-item"
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        <FaUserCircle className="dropdown-icon" />
+                        My Account
+                      </Link>
+                      <Link 
+                        to="/settings" 
+                        className="dropdown-item"
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        <FaCog className="dropdown-icon" />
+                        Settings
+                      </Link>
+                      <div className="dropdown-divider"></div>
+                      <button 
+                        className="dropdown-item sign-out-btn"
+                        onClick={signOut}
+                      >
+                        <FaSignOutAlt className="dropdown-icon" />
+                        Sign Out
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link 
+                        to="/cuslogin" 
+                        className="dropdown-item"
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        <FaUserCircle className="dropdown-icon" />
+                        Login
+                      </Link>
+                      <Link 
+                        to="/register" 
+                        className="dropdown-item"
+                        onClick={() => setShowDropdown(false)}
+                      >
+                        <FaCog className="dropdown-icon" />
+                        Register
+                      </Link>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      {isOpen && (
-        <div className="md:hidden bg-white shadow-lg">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <MobileNavLink to="/" text="Home" closeMenu={closeMenu} />
-            <MobileNavLink to="/products" text="Products" closeMenu={closeMenu} />
-            <MobileNavLink to="/about" text="About" closeMenu={closeMenu} />
-            <MobileNavLink to="/contact" text="Contact" closeMenu={closeMenu} />
-            
-            <div className="px-3 pt-2">
-              <form onSubmit={handleSearch} className="flex">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-3 py-2 rounded-r-md hover:bg-blue-600 transition"
-                >
-                  <FaSearch />
-                </button>
-              </form>
-            </div>
-
-            <div className="flex px-3 pt-2 space-x-4">
-              <Link 
-                to="/account" 
-                onClick={closeMenu}
-                className="text-gray-700 hover:text-blue-600 px-3 py-2"
-              >
-                <FaUser className="h-5 w-5 inline mr-2" />
-                Account
-              </Link>
-              <Link 
-                to="/cart" 
-                onClick={closeMenu}
-                className="text-gray-700 hover:text-blue-600 px-3 py-2 relative"
-              >
-                <FaShoppingCart className="h-5 w-5 inline mr-2" />
-                Cart
-                <span className="absolute top-1 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  3
-                </span>
-              </Link>
-            </div>
+      {/* Service Status Bar */}
+      <div className="service-status-bar">
+        <div className="container-fluid">
+          <div className="status-content">
+            <FaTools className="status-icon" />
+            <span>Open today: 8:00 AM - 6:00 PM</span>
+            <span className="status-divider">|</span>
+            <span>24/7 Emergency Service Available</span>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 };
-
-// Reusable NavLink component for desktop
-const NavLink = ({ to, text, closeMenu }) => (
-  <Link
-    to={to}
-    onClick={closeMenu}
-    className="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition"
-    activeClassName="text-blue-600 font-semibold"
-  >
-    {text}
-  </Link>
-);
-
-// Reusable MobileNavLink component
-const MobileNavLink = ({ to, text, closeMenu }) => (
-  <Link
-    to={to}
-    onClick={closeMenu}
-    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-    activeClassName="text-blue-600 bg-blue-50"
-  >
-    {text}
-  </Link>
-);
 
 export default Navbar;

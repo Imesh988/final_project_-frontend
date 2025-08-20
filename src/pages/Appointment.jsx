@@ -323,8 +323,9 @@ function Appointment() {
 
   const AllAppointmentTable = () => {
     return (
+      
       <div className="card mb-4">
-        <Navbar />
+        
         <div className="card-header">
           <h2>All Appointments</h2>
         </div>
@@ -384,8 +385,13 @@ function Appointment() {
   }, []);
 
   return (
+    
+   <>
+   <Navbar />
     <div className="container mt-4">
+    
       <AllAppointmentTable />
+      
       <div className="card p-3 shadow">
         <div className="card-header">
           <h3 className="card-title text-center">Add Appointment</h3>
@@ -491,6 +497,7 @@ function Appointment() {
       />
 
     </div>
+   </>
   );
 }
 
