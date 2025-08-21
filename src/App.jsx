@@ -6,7 +6,8 @@ import CusRegistration from "./pages/CusRegistration";
 import CusLogin from "./pages/CusLogin.jsx";
 import WhatsAppSender from "./WhatsAppSender/WhatsAppSender.jsx";
 import Appointment from "./pages/Appointment.jsx";  
-// import LocationLoad from "./pages/LocationLoad.jsx";
+import LocationLoad from "./pages/LocationLoad.jsx";
+import SaveFeedback from "./pages/Feedback.jsx";
 function App() {
   return (
     <Router>
@@ -19,6 +20,7 @@ function App() {
         <Route path="/whatsapp" element={<WhatsAppSender />} />
         {/* <Route path="/locationLoad" element={<LocationLoad />} /> */}
         <Route path="/appointment" element={<Appointment />} />
+        <Route path="/feedback" element={<SaveFeedback />} />
         
 
       </Routes>

@@ -1,0 +1,358 @@
+/* Feedback.css - Service Center Theme */
+.service-app-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+}
+
+.service-feedback-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.service-feedback-card {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e3e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.service-feedback-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #067702, #168f45);
+}
+
+.service-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.service-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    background: linear-gradient(135deg, #0c6e1d, #31b171);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.service-header h2 {
+    color: #2d3748;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.service-header p {
+    color: #718096;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.service-feedback-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.service-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.service-form-group label {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.service-form-group input,
+.service-form-group textarea {
+    padding: 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.service-form-group input:focus,
+.service-form-group textarea:focus {
+    outline: none;
+    border-color: #1a812b;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.service-form-group input.service-error,
+.service-form-group textarea.service-error {
+    border-color: #e53e3e;
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
+}
+
+.service-error-message {
+    color: #e53e3e;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* Star Rating Styles */
+.star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    transition: all 0.2s ease;
+    transform: scale(1);
+}
+
+.star-btn:hover {
+    transform: scale(1.15);
+}
+
+.star {
+    font-size: 32px;
+    transition: all 0.2s ease;
+}
+
+.star-btn.on .star {
+    color: #FFD700;
+    text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+}
+
+.star-btn.off .star {
+    color: #cbd5e0;
+}
+
+/* Submit Button */
+.service-form-submit {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.service-submit-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: linear-gradient(135deg, #0f8f4f, #37aa6b);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.service-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+    gap: 12px;
+}
+
+.service-submit-btn:active {
+    transform: translateY(0);
+}
+
+.service-submit-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.service-submit-btn:hover svg {
+    transform: translateX(3px);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .service-feedback-card {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    .service-header h2 {
+        font-size: 24px;
+    }
+    
+    .service-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .star {
+        font-size: 28px;
+    }
+    
+    .service-submit-btn {
+        padding: 14px 28px;
+        font-size: 15px;
+    }
+}
+
+/* Animation for form elements */
+@keyframes serviceFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.service-form-group {
+    animation: serviceFadeIn 0.5s ease forwards;
+}
+
+.service-form-group:nth-child(1) { animation-delay: 0.1s; }
+.service-form-group:nth-child(2) { animation-delay: 0.2s; }
+.service-form-group:nth-child(3) { animation-delay: 0.3s; }
+.service-form-submit { animation-delay: 0.4s; }
+
+/* Professional service center touches */
+.service-feedback-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f7f9fc 100%);
+}
+
+.service-form-group input::placeholder,
+.service-form-group textarea::placeholder {
+    color: #a0aec0;
+    font-size: 14px;
+}
+
+.service-form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+
+.logo-icon {
+  font-size: 2.5rem;
+  color: #345ad6;
+  z-index: 1;
+  margin-right: 12px;
+  animation: rotateSlightly 2s infinite ease-in-out;
+}
+
+.logo-text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  z-index: 1;
+  color: #2651c5;
+}
+
+.logo-container {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #1f4037, #99f2c8);
+  border-radius: 60px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  animation: logoFadeIn 0.8s ease-in-out;
+}
+
+.logo-container::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: shimmerLoop 6s linear infinite;
+  z-index: 0;
+}
+
+.logo-icon {
+  font-size: 2.5rem;
+  color: #ffffff;
+  margin-right: 15px;
+  z-index: 1;
+  animation: slightRotate 2.5s infinite ease-in-out;
+}
+
+.logo-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 1px;
+  background: linear-gradient(to right, #ffffff, #e0ffe8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  z-index: 1;
+}
+
+.logo-container:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.logo-container:hover .logo-icon {
+  transform: rotate(8deg);
+}
+
+/* Animations */
+@keyframes shimmerLoop {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slightRotate {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
