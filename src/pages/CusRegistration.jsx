@@ -20,7 +20,7 @@ const CreateCustomerForm = ({ form, setForm, createCustomer }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors({ ...errors, [name]: '' });
@@ -33,7 +33,7 @@ const CreateCustomerForm = ({ form, setForm, createCustomer }) => {
 
     const newErrors = {};
 
-    
+
     if (!form.nic) {
       newErrors.nic = 'NIC is required';
     } else if (!validateNIC(form.nic)) {
@@ -326,7 +326,9 @@ const UpdateCustomerModal = ({
 }
 
 function CusRegistration() {
-  const [customers, setCustomers] = useState([]);
+  // const [customers, setCustomers] = useState([]);
+  const [lastCreatedCustomer, setLastCreatedCustomer] = useState(null);
+
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({
     nic: '',
@@ -356,7 +358,10 @@ function CusRegistration() {
 
   const createCustomer = async () => {
     try {
-      await axios.post("/customer/create", form);
+      const response = await axios.post("/customer/create", form);
+      console.log("Full response object from server:", response);
+      console.log("Response data object:", response.data);
+      setLastCreatedCustomer(response.data.customer);
       setForm({
         nic: '',
         username: '',
@@ -367,48 +372,50 @@ function CusRegistration() {
         city: ''
       })
       alert("Customer Created Successfully");
-      fetchCustomers();
+      // fetchCustomers();
     } catch (error) {
       console.error("Error creating customer:", error?.response || error);
-     
+
       if (error.response?.data?.message === 'Customer already exists') {
-        alert("Employee with this NIC already exists");
+        alert("Customer with this NIC already exists");
       } else {
-        alert("Failed to create employee");
+        alert("Failed to create customer");
 
       }
     }
   }
 
-  const fetchCustomers = async () => {
-    try {
-      const response = await axios.get('/customer/getAll');
-      setCustomers(response.data?.customers || []);
-    } catch (error) {
-      console.error("Error fetching customers:", error);
-      setCustomers([]);
+  // const fetchCustomers = async () => {
+  //   try {
+  //     const response = await axios.get('/customer/getAll');
+  //     setCustomers(response.data?.customers || []);
+  //   } catch (error) {
+  //     console.error("Error fetching customers:", error);
+  //     setCustomers([]);
 
-    }
+  //   }
+  // }
+const updateCustomer = async () => {
+  try {
+    const response = await axios.put(`/customer/update/${selectedCustomer._id}`, selectedCustomer);
+
+    setLastCreatedCustomer(selectedCustomer);
+   
+    setShowModal(false);
+    alert("Customer Updated Successfully !!");
+
+  } catch (error) {
+    console.error("Error updating customer:", error);
+    alert("Failed to update customer");
   }
-
-  const updateCustomer = async () => {
-    try {
-      await axios.put(`/customer/update/${selectedCustomer._id}`, selectedCustomer);
-      setShowModal(false);
-      fetchCustomers();
-      alert("Customer Updated Successfully !!");
-    } catch (error) {
-      console.error("Error updating customer:", error);
-      alert("Failed to update customer");
-
-    }
-  }
+}
 
   const deleteCustomer = async (id) => {
     if (window.confirm("Are you sure you want to delete this customer?")) {
       try {
         await axios.delete(`/customer/delete/${id}`);
-        fetchCustomers();
+        // fetchCustomers();
+        setLastCreatedCustomer(null);
       } catch (error) {
         console.error("Error deleting customer:", error);
         alert("Failed to delete customer");
@@ -416,13 +423,79 @@ function CusRegistration() {
     }
   }
 
-  const AllCustomerTable = () => {
-    if (customers.length === 0) return <p>No customers found</p>;
+  // const AllCustomerTable = () => {
+  //   if (customers.length === 0) return <p>No customers found</p>;
 
+  //   return (
+  //     <div className="card">
+  //       <div className="card-header">
+  //         <h2>All Customers</h2>
+  //       </div>
+  //       <div className="card-body">
+  //         <table className="table table-hover align-middle mb-0">
+  //           <thead className="bg-light">
+  //             <tr>
+  //               <th>Username</th>
+  //               <th>Full Name</th>
+  //               <th>Telephone Number</th>
+  //               <th>WhatsApp Number</th>
+  //               <th>City</th>
+  //               <td className="text-end">Action</td>
+  //             </tr>
+  //           </thead>
+  //           <tbody>
+  //             {customers.map((customer) => (
+  //               <tr key={customer._id}>
+  //                 <td>{customer.username}</td>
+  //                 <td>{customer.full_name}</td>
+  //                 <td>{customer.tp}</td>
+  //                 <td>{customer.whathappNo}</td>
+  //                 <td>{customer.city}</td>
+  //                 <td className="text-end">
+  //                   <button
+  //                     onClick={() => openUpdateModal(customer)}
+  //                     className="btn btn-outline-warning btn-sm me-2"
+  //                   >
+  //                     Update
+  //                   </button>
+  //                   <button
+  //                     onClick={() => deleteCustomer(customer._id)}
+  //                     className="btn btn-outline-danger btn-sm"
+  //                   >
+  //                     Delete
+  //                   </button>
+  //                 </td>
+  //               </tr>
+  //             ))}
+  //           </tbody>
+  //         </table>
+  //       </div>
+  //     </div>
+  //   )
+  // }
+
+
+  // useEffect(() => {
+  //   fetchCustomers();
+  // }, []);
+
+  const LastCustomerTable = () => {
+    // lastCreatedCustomer state එක null නම් (එනම්, තවම කවුරුත් create කර නැතිනම්)
+    if (!lastCreatedCustomer) {
+      return (
+        <div className="card mt-4">
+          <div className="card-body text-center">
+            <p className="mb-0">No customer has been created yet.</p>
+          </div>
+        </div>
+      );
+    }
+
+    // දත්ත තිබේ නම්, එම customer සඳහා table එක පෙන්වන්න
     return (
-      <div className="card">
+      <div className="card mt-4">
         <div className="card-header">
-          <h2>All Customers</h2>
+          <h3>Last Created Customer</h3>
         </div>
         <div className="card-body">
           <table className="table table-hover align-middle mb-0">
@@ -433,44 +506,38 @@ function CusRegistration() {
                 <th>Telephone Number</th>
                 <th>WhatsApp Number</th>
                 <th>City</th>
-                <td className="text-end">Action</td>
+                <th className="text-end">Action</th>
               </tr>
             </thead>
             <tbody>
-              {customers.map((customer) => (
-                <tr key={customer._id}>
-                  <td>{customer.username}</td>
-                  <td>{customer.full_name}</td>
-                  <td>{customer.tp}</td>
-                  <td>{customer.whathappNo}</td>
-                  <td>{customer.city}</td>
-                  <td className="text-end">
-                    <button
-                      onClick={() => openUpdateModal(customer)}
-                      className="btn btn-outline-warning btn-sm me-2"
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() => deleteCustomer(customer._id)}
-                      className="btn btn-outline-danger btn-sm"
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {/* මෙහි map function එකක් අවශ්‍ය නැත */}
+              <tr key={lastCreatedCustomer._id}>
+                <td>{lastCreatedCustomer.username}</td>
+                <td>{lastCreatedCustomer.full_name}</td>
+                <td>{lastCreatedCustomer.tp}</td>
+                <td>{lastCreatedCustomer.whathappNo}</td>
+                <td>{lastCreatedCustomer.city}</td>
+                <td className="text-end">
+                  <button
+                    onClick={() => openUpdateModal(lastCreatedCustomer)}
+                    className="btn btn-outline-warning btn-sm me-2"
+                  >
+                    Update
+                  </button>
+                  <button
+                    onClick={() => deleteCustomer(lastCreatedCustomer._id)}
+                    className="btn btn-outline-danger btn-sm"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
-    )
+    );
   }
-
-
-  useEffect(() => {
-    fetchCustomers();
-  }, []);
 
 
   return (
@@ -480,7 +547,8 @@ function CusRegistration() {
         setForm={setForm}
         createCustomer={createCustomer}
       />
-      <AllCustomerTable />
+      {/* <AllCustomerTable /> */}
+      <LastCustomerTable />
       <UpdateCustomerModal
         showModal={showModal}
         setShowModal={setShowModal}

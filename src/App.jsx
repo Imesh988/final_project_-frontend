@@ -8,6 +8,7 @@ import WhatsAppSender from "./WhatsAppSender/WhatsAppSender.jsx";
 import Appointment from "./pages/Appointment.jsx";  
 import LocationLoad from "./pages/LocationLoad.jsx";
 import SaveFeedback from "./pages/Feedback.jsx";
+import ImageProcessor from "./pages/ImageProcessor.jsx";
 function App() {
   return (
     <Router>
@@ -21,6 +22,7 @@ function App() {
         {/* <Route path="/locationLoad" element={<LocationLoad />} /> */}
         <Route path="/appointment" element={<Appointment />} />
         <Route path="/feedback" element={<SaveFeedback />} />
+        <Route path="/imageProcessor" element={<ImageProcessor />} />
         
 
       </Routes>

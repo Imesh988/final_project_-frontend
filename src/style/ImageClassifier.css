@@ -1,0 +1,41 @@
+/* ... (ඔබේ පරණ CSS එකට අමතරව) ... */
+
+.display-area {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.result-box {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  width: 300px;
+  text-align: center;
+}
+
+.result-box h2 {
+  margin-top: 0;
+}
+
+.result-box .prediction {
+  font-size: 1.5em;
+  margin: 10px 0;
+}
+
+.result-box .prediction span {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.result-box .confidence {
+  font-size: 1.2em;
+}
+
+.result-box .confidence span {
+  font-weight: bold;
+}
