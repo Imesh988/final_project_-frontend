@@ -104,7 +104,7 @@ const Navbar = () => {
       <div className="container-fluid">
         <Link className="navbar-brand logo-container" to="/">
           <GiAutoRepair className="logo-icon" />
-          <span className="logo-text">AutoCare Pro</span>
+          <span className="logo-text">SD AutoCare </span>
         </Link>
 
         <div className="emergency-contact d-none d-lg-flex">
