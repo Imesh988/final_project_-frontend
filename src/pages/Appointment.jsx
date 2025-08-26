@@ -296,20 +296,17 @@ function Appointment() {
         time: selectedAppointment.time,
         category: selectedAppointment.category,
         tp: selectedAppointment.tp,
-        employee_id: selectedAppointment.employeeId, // <-- මෙතන employee_id ලෙස යැවිය යුතුයි
-        location_id: selectedAppointment.locationId // <-- මෙතන location_id ලෙස යැවිය යුතුයි
+        employee_id: selectedAppointment.employeeId,
+        location_id: selectedAppointment.locationId 
       };
 
-      // Backend එකට update request එක යවනවා
       const response = await axios.put(`/appointment/update/${selectedAppointment._id}`, updateData);
       
-      // Backend එකෙන් එන අලුත්, populated data වලින් state එක update කරනවා
       if (response.data && response.data.appointment) {
           setLastCreatedAppointment(response.data.appointment);
           setShowModal(false);
           alert("Appointment Updated Successfully !!");
       } else {
-          // Backend එකෙන් appointment object එකක් ආවේ නැතිනම් error එකක් පෙන්වනවා
           throw new Error("Update failed or server did not return updated data.");
       }
 
