@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { FaWhatsapp } from 'react-icons/fa';
+import LoadAppointment from '../pages/LoadAppointment';
+import {useParams , useNavigate } from 'react-router-dom';
 import {
   validateSriLankanPhone,
   generateWhatsAppLink
 } from './utils';
 import '../style/WhatsAppSender.css';
-// import EmployeeLoader from '../pages/EmployeeLoader';
+import axios from '../api/axios';
 
 const WhatsAppSender = () => {
+  const { username, phone , appointmentId } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
+     name: username || '',
     messageType: '',
-    phone: '',
+    phone: phone || '',
     message: ''
   });
   const [status, setStatus] = useState('');
-  // const [selectedEmployeeID, setSelectedEmployeeID] = useState(null);
-  // const [employees, setEmployees] = useState([]);
-
-  const fetchData = async () => {
+    const fetchData = async () => {
     try {
       const [regRes, empRes] = await Promise.all([
         axios.get('/employee/getAll'),
@@ -64,6 +65,13 @@ const WhatsAppSender = () => {
     );
 
     window.open(whatsappLink, '_blank');
+     if (appointmentId) {
+      localStorage.setItem('whatsAppSentAppointmentId', appointmentId);
+    }
+        setStatus('WhatsApp message ready! Check your phone!');
+ setTimeout(() => {
+      navigate('/loadAppointment'); 
+    }, 1500);
     setStatus('WhatsApp message ready! Check your phone!');
     setFormData({ name: '', messageType: '', phone: '', message: '' });
   };
@@ -86,7 +94,6 @@ const WhatsAppSender = () => {
           />
         </div>
 
-        {/* <EmployeeLoader /> */}
 
         <div className="form-group">
           <label>Message Type:</label>
@@ -97,7 +104,7 @@ const WhatsAppSender = () => {
             required
             className="message-type-select"
           >
-            <option value="">-- Select message type --</option>
+            <option value="" className="selectMessage">-- Select message type --</option>
             {options.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -136,6 +143,8 @@ const WhatsAppSender = () => {
           <FaWhatsapp /> Send via WhatsApp
         </button>
       </form>
+      
+
     </div>
   );
 };

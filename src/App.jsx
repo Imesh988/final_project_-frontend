@@ -9,6 +9,7 @@ import Appointment from "./pages/Appointment.jsx";
 import LocationLoad from "./pages/LocationLoad.jsx";
 import SaveFeedback from "./pages/Feedback.jsx";
 import ImageProcessor from "./pages/ImageProcessor.jsx";
+import LoadAppointment from "./pages/LoadAppointment.jsx";
 function App() {
   return (
     <Router>
@@ -18,11 +19,12 @@ function App() {
         <Route path="/location" element={<SaveLocation />} />
         <Route path="/customer" element={<CusRegistration />} />
         <Route path="/cuslogin" element={<CusLogin />} />
-        <Route path="/whatsapp" element={<WhatsAppSender />} />
+        <Route path="/whatsapp/:username/:phone/:appointmentId" element={<WhatsAppSender />} />
         {/* <Route path="/locationLoad" element={<LocationLoad />} /> */}
         <Route path="/appointment" element={<Appointment />} />
         <Route path="/feedback" element={<SaveFeedback />} />
         <Route path="/imageProcessor" element={<ImageProcessor />} />
+        <Route path="/loadAppointment" element={<LoadAppointment />} />
         
 
       </Routes>

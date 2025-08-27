@@ -198,6 +198,7 @@ function Appointment() {
     if (!formData.date) newErrors.date = "Date is required";
     if (!formData.time) newErrors.time = "Time is required";
     if (!formData.category) newErrors.category = "Category is required";
+    if (formData.telephone.length !== 10) newErrors.telephone = "Telephone must be 10 digits";
     if (!formData.telephone) newErrors.telephone = "Telephone is required";
     if (!formData.employeeId) newErrors.employeeId = "Employee is required";
     if (!formData.locationId) newErrors.locationId = "Location is required";
@@ -276,7 +277,6 @@ function Appointment() {
       try {
         await axios.delete(`/appointment/delete/${id}`);
         setLastCreatedAppointment(null);
-        alert("Appointment Deleted Successfully !!");
       } catch (error) {
         console.error("Error deleting appointment:", error);
         alert("Failed to delete appointment");
@@ -297,17 +297,17 @@ function Appointment() {
         category: selectedAppointment.category,
         tp: selectedAppointment.tp,
         employee_id: selectedAppointment.employeeId,
-        location_id: selectedAppointment.locationId 
+        location_id: selectedAppointment.locationId
       };
 
       const response = await axios.put(`/appointment/update/${selectedAppointment._id}`, updateData);
-      
+
       if (response.data && response.data.appointment) {
-          setLastCreatedAppointment(response.data.appointment);
-          setShowModal(false);
-          alert("Appointment Updated Successfully !!");
+        setLastCreatedAppointment(response.data.appointment);
+        setShowModal(false);
+        alert("Appointment Updated Successfully !!");
       } else {
-          throw new Error("Update failed or server did not return updated data.");
+        throw new Error("Update failed or server did not return updated data.");
       }
 
     } catch (error) {
@@ -393,6 +393,19 @@ function Appointment() {
   //   fetchData();
   // }, []);
 
+  useEffect(() => {
+    const storedUserData = localStorage.getItem('userData');
+
+    if (storedUserData) {
+      const userData = JSON.parse(storedUserData);
+
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        userName: userData.username 
+      }));
+    }
+  }, []);
+
 
   const LastAppointmentDetails = ({ appointment, onUpdate, onDelete }) => {
     if (!appointment) {
@@ -460,6 +473,7 @@ function Appointment() {
                   placeholder="User Name"
                   value={formData.userName}
                   onChange={handleChange}
+                  readOnly
                 />
                 {errors.userName && <div className="invalid-feedback">{errors.userName}</div>}
               </div>

@@ -1,0 +1,218 @@
+/* ===== Container Styling ===== */
+.load-appointment-container {
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f4f6f9, #e9edf4);
+  min-height: 100vh;
+  animation: fadeIn 0.6s ease;
+}
+
+/* ===== Search Component Card ===== */
+.search-component-card {
+  background: #0c0c0c;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  transition: all 0.3s ease-in-out;
+}
+
+.search-component-card:hover {
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.07);
+}
+
+/* Search Input */
+.search-component-card .form-control {
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  transition: border-color 0.3s ease;
+}
+
+.search-component-card .form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.1rem rgba(13, 110, 253, 0.25);
+}
+
+/* Dropdown */
+.search-component-card .form-select {
+  padding: 10px;
+  border-radius: 8px;
+  
+}
+
+.custom-select {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  background-color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='16' height='16' fill='gray' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* Hover effect */
+.custom-select:hover {
+  border-color: #0d6efd;
+  background-color: #f1f8ff;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+}
+
+/* Focused state */
+.custom-select:focus {
+  border-color: #0d6efd;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.2);
+  background-color: #ffffff;
+  color: #000;
+}
+@media (prefers-color-scheme: dark) {
+  .custom-select {
+    background-color: #1e1e2f;
+    color: #f0f0f0;
+    border-color: #444;
+  }
+
+  .custom-select:hover,
+  .custom-select:focus {
+    background-color: #2a2a3d;
+    border-color: #0d6efd;
+  }
+}
+
+
+/* Search Button */
+.search-component-card .btn-primary {
+  padding: 10px 18px;
+  border-radius: 8px;
+  background-color: #066445;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+.search-component-card .btn-primary:hover {
+  background-color: #12856c;
+}
+
+/* ===== Appointments Card ===== */
+.appointments-main-card {
+  border: none;
+  background-color: transparent;
+}
+
+/* Individual Appointment Card */
+.appointment-card .card {
+  border: none;
+  border-radius: 16px;
+  background: #ffffff;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+
+.appointment-card .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Appointment Card Text */
+.appointment-card .card-body {
+  padding: 20px;
+}
+
+.appointment-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #167953;
+}
+
+/* Appointment Details */
+.appointment-card .card-text {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+/* Buttons */
+.appointment-card .btn-outline-success,
+.appointment-card .btn-outline-danger {
+  border-radius: 50px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.appointment-card .btn-outline-success:hover {
+  background-color: #198754;
+  color: white;
+}
+
+.appointment-card .btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Sent Checkmark */
+.appointment-card .bi-check-circle-fill {
+  animation: popIn 0.3s ease forwards;
+}
+
+/* Empty State / Error */
+.text-danger, .load-appointment-container p {
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
+
+/* ===== Animations ===== */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .search-component-card h5 {
+    font-size: 1rem;
+  }
+
+  .appointment-card .card-title {
+    font-size: 1rem;
+  }
+
+  .appointment-card .card-text {
+    font-size: 0.85rem;
+  }
+
+  .row-cols-lg-5 > * {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 480px) {
+  .row-cols-lg-5 > * {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
