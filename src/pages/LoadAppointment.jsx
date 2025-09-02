@@ -10,11 +10,16 @@ const SearchComponent = (
     setSearchTerm,
     searchCategory,
     setSearchCategory,
+    searchDate,
+    setSearchDate,
+    searchTime,
+    setSearchTime,
+
     onSearch }
 ) => {
   const handleSearch = (e) => {
     e.preventDefault();
-    onSearch(searchTerm, searchCategory);
+    onSearch(searchTerm, searchCategory, searchDate, searchTime);
   };
 
   return (
@@ -43,9 +48,34 @@ const SearchComponent = (
                 <option value="category">Category</option>
                 <option value="employee">Employee</option>
                 <option value="location">Location</option>
+                <option value="date">Date</option>
+                <option value="time">Time</option>
               </select>
 
             </div>
+
+            {searchCategory === 'date' && (
+              <div style={{ maxWidth: '180px' }}>
+                <input
+                  className="form-control"
+                  type="date"
+                  value={searchDate}
+                  onChange={(e) => setSearchDate(e.target.value)}
+                />
+              </div>
+            )}
+
+            {searchCategory === 'time' && (
+              <div style={{ maxWidth: '180px' }}>
+                <input
+                  className="form-control"
+                  type="time"
+                  value={searchTime}
+                  onChange={(e) => setSearchTime(e.target.value)}
+                />
+              </div>
+            )}
+
             <div>
               <button className="btn btn-primary w-100" type="submit">
                 <i class="bi bi-search"></i>
@@ -66,6 +96,8 @@ function LoadAppointment() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchCategory, setSearchCategory] = useState('username');
+  const [searchDate, setSearchDate] = useState('');
+  const [searchTime, setSearchTime] = useState('');
   const navigate = useNavigate();
 
   const fetchAppointment = async () => {
@@ -111,36 +143,55 @@ function LoadAppointment() {
     }
   }
 
-  const filterAppointments = (term, category) => {
-    if (!term.trim()) {
+  const filterAppointments = (term, category, date, time) => {
+    if (!term.trim() && !date && !time) {
       setFilteredAppointments(appointments);
       return;
     }
 
     const filtered = appointments.filter(appointment => {
-      const searchValue = term.toLowerCase();
 
-      switch (category) {
-        case 'username':
-          return appointment.username?.toLowerCase().includes(searchValue);
-        case 'category':
-          return appointment.category?.toLowerCase().includes(searchValue);
-        case 'employee':
-          const employeeName = appointment.employee_id?.username || '';
-          return employeeName.toLowerCase().includes(searchValue);
-        case 'location':
-          const locationName = appointment.location_id?.city || '';
-          return locationName.toLowerCase().includes(searchValue);
-        default:
-          return true;
+      
+     if (term.trim() && category !== 'date' && category !== 'time') {
+        const searchValue = term.toLowerCase();
+        
+        switch (category) {
+          case 'username':
+            return appointment.username?.toLowerCase().includes(searchValue);
+          case 'category':
+            return appointment.category?.toLowerCase().includes(searchValue);
+          case 'employee':
+            const employeeName = appointment.employee_id?.username || '';
+            return employeeName.toLowerCase().includes(searchValue);
+          case 'location':
+            const locationName = appointment.location_id?.city || '';
+            return locationName.toLowerCase().includes(searchValue);
+          default:
+            return true;
+        }
       }
+      
+      if (category === 'date' && date) {
+        const appointmentDate = new Date(appointment.date).toISOString().split('T')[0];
+        return appointmentDate === date;
+      }
+      
+      if (category === 'time' && time) {
+        const normalizeTime = (timeStr) => {
+          return timeStr.split(':').slice(0, 2).join(':');
+        };
+        
+        return normalizeTime(appointment.time) === normalizeTime(time);
+      }
+      
+      return true;
     });
 
     setFilteredAppointments(filtered);
   };
 
-  const handleSearch = (term, category) => {
-    filterAppointments(term, category);
+  const handleSearch = (term, category, date, time) => {
+    filterAppointments(term, category, date, time);
   };
 
 
@@ -166,6 +217,10 @@ function LoadAppointment() {
         setSearchTerm={setSearchTerm}
         searchCategory={searchCategory}
         setSearchCategory={setSearchCategory}
+        searchDate={searchDate}
+        setSearchDate={setSearchDate}
+        searchTime={searchTime}
+          setSearchTime={setSearchTime}
         onSearch={handleSearch}
       />
       <div className="card mb-4 appointments-main-card">

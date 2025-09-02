@@ -1,41 +1,78 @@
-/* ... (ඔබේ පරණ CSS එකට අමතරව) ... */
+/* final_project_-frontend/src/App.css */
 
-.display-area {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.result-box {
-  margin-top: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  width: 300px;
+.App {
   text-align: center;
 }
 
-.result-box h2 {
-  margin-top: 0;
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
 }
 
-.result-box .prediction {
-  font-size: 1.5em;
-  margin: 10px 0;
+.input-section {
+  margin-bottom: 20px;
 }
 
-.result-box .prediction span {
+.input-section input[type="file"] {
+  margin-right: 10px;
+  padding: 10px;
+  background-color: #61dafb;
+  color: #282c34;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input-section button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.input-section button:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.input-section button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  margin-top: 10px;
   font-weight: bold;
-  color: #007bff;
 }
 
-.result-box .confidence {
-  font-size: 1.2em;
+.image-preview, .results-section {
+  background-color: #3e4451;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  max-width: 600px;
 }
 
-.result-box .confidence span {
-  font-weight: bold;
+.image-preview img {
+    border: 2px solid #61dafb;
+    border-radius: 5px;
+}
+
+.results-section pre {
+  background: #20232a;
+  color: #61dafb;
+  border-radius: 5px;
+  padding: 15px;
+  overflow-x: auto;
 }
