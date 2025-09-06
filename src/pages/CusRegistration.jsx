@@ -480,7 +480,6 @@ const updateCustomer = async () => {
   // }, []);
 
   const LastCustomerTable = () => {
-    // lastCreatedCustomer state එක null නම් (එනම්, තවම කවුරුත් create කර නැතිනම්)
     if (!lastCreatedCustomer) {
       return (
         <div className="card mt-4">
@@ -491,7 +490,6 @@ const updateCustomer = async () => {
       );
     }
 
-    // දත්ත තිබේ නම්, එම customer සඳහා table එක පෙන්වන්න
     return (
       <div className="card mt-4">
         <div className="card-header">

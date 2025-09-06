@@ -12,6 +12,7 @@ import SaveFeedback from "./pages/Feedback.jsx";
 import LoadAppointment from "./pages/LoadAppointment.jsx";
 import ImageUpload from "./componrnts/ImageUpload.jsx";
 import LoadEmp from "./pages/LoadEmployee.jsx";
+import CustomerDashboard from "./pages/customerDashboard.jsx";
 function App() {
   return (
     <Router>
@@ -29,6 +30,7 @@ function App() {
         <Route path="/loadAppointment" element={<LoadAppointment />} />
         <Route path="/imageUpload" element={<ImageUpload />} />
         <Route path="/loadEmployee" element={<LoadEmp />} />
+        <Route path="/customerDashboard" element={<CustomerDashboard />} />
         
 
       </Routes>
