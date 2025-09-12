@@ -24,7 +24,7 @@ function LoadEmp() {
 
 
         } finally {
-            setIsLoading(false); // Moved setIsLoading to finally block
+            setIsLoading(false);
         }
 
     }

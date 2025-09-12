@@ -1,0 +1,84 @@
+/* Card Hover Effect */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Table Row Hover Animation */
+.table-hover tbody tr {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+  transform: scale(1.01);
+}
+
+/* Button Hover Effects */
+.btn-outline-dark,
+.btn-outline-danger,
+.btn-outline-warning {
+  transition: all 0.3s ease;
+}
+
+.btn-outline-dark:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-outline-warning:hover {
+  background-color: #ffc107;
+  color: #000;
+}
+
+/* Modal Animation */
+.modal.fade.show .modal-dialog {
+  animation: slideDown 0.4s ease;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Submit Button Animation */
+.btn-dark {
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.btn-dark:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+/* Empty State (No Customer Yet) */
+.text-muted {
+  animation: fadePulse 2s infinite;
+}
+
+@keyframes fadePulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.icon-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+}

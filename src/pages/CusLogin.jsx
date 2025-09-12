@@ -23,6 +23,24 @@ function CusLogin() {
         password
       });
 
+       if (response.data.msg === 'successful') {
+        // Save token and customer data for future use
+        localStorage.setItem('token', response.data.token);
+
+        // Save customer login info for CustomerDetails page
+        localStorage.setItem('userData', JSON.stringify({
+          _id: response.data.user._id,
+          username: response.data.user.username,
+          email: response.data.user.email
+        }));
+
+        // Redirect to CustomerDetails page
+        navigate('/customer-details');
+      } else {
+        setError(response.data.msg || 'Invalid credentials');
+      }
+    
+
       if (response.data.msg === 'successful') {
         localStorage.setItem('token', response.data.token);
         
@@ -42,7 +60,7 @@ function CusLogin() {
   return (
     <div className="login-page">
       <video autoPlay loop muted playsInline className="login-bg-video">
-        <source src="../../public/video/6873163-uhd_2160_3840_25fps.mp4" type="video/mp4" />
+        <source src="../../video/6873163-uhd_2160_3840_25fps.mp4" type="video/mp4" />
         Your browser does not support HTML5 video.
       </video>
 

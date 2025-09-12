@@ -8,16 +8,18 @@ import WhatsAppSender from "./WhatsAppSender/WhatsAppSender.jsx";
 import Appointment from "./pages/Appointment.jsx";  
 import LocationLoad from "./pages/LocationLoad.jsx";
 import SaveFeedback from "./pages/Feedback.jsx";
-// import ImageProcessor from "./pages/ImageProcessor.jsx";
+import ImageProcessor from "./pages/ImageProcessor.jsx";
 import LoadAppointment from "./pages/LoadAppointment.jsx";
 import ImageUpload from "./componrnts/ImageUpload.jsx";
 import LoadEmp from "./pages/LoadEmployee.jsx";
 import CustomerDashboard from "./pages/customerDashboard.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+import CustomerDetails from "./pages/CustomerDetails.jsx";
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/employee" element={<EmRegistration />} />
         <Route path="/location" element={<SaveLocation />} />
         <Route path="/customer" element={<CusRegistration />} />
@@ -26,11 +28,13 @@ function App() {
         {/* <Route path="/locationLoad" element={<LocationLoad />} /> */}
         <Route path="/appointment" element={<Appointment />} />
         <Route path="/feedback" element={<SaveFeedback />} />
-        {/* <Route path="/imageProcessor" element={<ImageProcessor />} /> */}
+        <Route path="/imageProcessor" element={<ImageProcessor />} />
         <Route path="/loadAppointment" element={<LoadAppointment />} />
         <Route path="/imageUpload" element={<ImageUpload />} />
         <Route path="/loadEmployee" element={<LoadEmp />} />
-        <Route path="/customerDashboard" element={<CustomerDashboard />} />
+        <Route path="/" element={<CustomerDashboard />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/customer-details" element={<CustomerDetails />} />   
         
 
       </Routes>

@@ -1,0 +1,143 @@
+.loginContainer {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Video background styles */
+.videoBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.videoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* Login form container */
+.loginFormContainer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure login card stands out against the background */
+.loginCard {
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Form styling */
+.formLabel {
+  color: #2c3e50;
+  font-size: 0.9rem;
+}
+
+.formControl {
+  border: 1px solid #dce4ec;
+  border-radius: 8px;
+  padding: 12px 15px;
+  transition: all 0.3s ease;
+}
+
+.formControl:focus {
+  border-color: #3498db;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+.loginButton {
+  background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.loginButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.loginButton:disabled {
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
+}
+
+.alertDanger {
+  color: #e74c3c;
+  background-color: #fadbd8;
+  border: 1px solid #f5b7b1;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.signupLink {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.signupLink a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.signupLink a:hover {
+  color: #2c3e50;
+  text-decoration: underline;
+}
+
+/* Logo styling */
+.logoIcon {
+  font-size: 2.8rem;
+  color: #3498db;
+  margin-bottom: 10px;
+}
+
+.logoText {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2c3e50;
+  display: block;
+  margin-top: 5px;
+  letter-spacing: 1px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .loginCard {
+    margin: 0 15px;
+  }
+  
+  .logoIcon {
+    font-size: 2.2rem;
+  }
+  
+  .logoText {
+    font-size: 1.5rem;
+  }
+}

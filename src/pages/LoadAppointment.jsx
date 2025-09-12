@@ -78,7 +78,7 @@ const SearchComponent = (
 
             <div>
               <button className="btn btn-primary w-100" type="submit">
-                <i class="bi bi-search"></i>
+                <i className="bi bi-search"></i>
               </button>
             </div>
           </form>

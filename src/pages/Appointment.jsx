@@ -5,7 +5,8 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import EmployeeLoader from "./EmployeeLoader";
 import LocationLoad from "./LocationLoad";
 import Navbar from "../layout/Naviation";
-
+import LoadEmp from "./LoadEmployee.jsx";
+import "../style/Appointment.css";
 
 const UpdateAppointmentModal = ({
   showModal,
@@ -70,6 +71,7 @@ const UpdateAppointmentModal = ({
                     />
                   </div>
                   <div className="form-group mb-3">
+                    <label className="form-label">Category</label>
                     <select
                       name="category"
                       className="form-control"
@@ -97,6 +99,7 @@ const UpdateAppointmentModal = ({
                   </div>
 
                   <div className="form-group mb-3">
+                    <label className="form-label">Employee</label>
                     <EmployeeLoader
                       onSelect={(employeeId) => {
                         setSelectedAppointment(prev => ({
@@ -109,6 +112,7 @@ const UpdateAppointmentModal = ({
                   </div>
 
                   <div className="form-group mb-3">
+                    <label className="form-label">Location</label>
                     <LocationLoad
                       onSelect={(locationId) => {
                         setSelectedAppointment(prev => ({
@@ -138,8 +142,8 @@ const UpdateAppointmentModal = ({
 };
 
 function Appointment() {
-  // const [appointments, setAppointments] = useState([]);
   const [lastCreatedAppointment, setLastCreatedAppointment] = useState(null);
+  const [customerId, setCustomerId] = useState(null);
   const [formData, setFormData] = useState({
     userName: "",
     date: "",
@@ -151,7 +155,6 @@ function Appointment() {
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-
   const [showModal, setShowModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState({
     _id: '',
@@ -160,25 +163,9 @@ function Appointment() {
     time: '',
     category: '',
     tp: '',
-    city: '',
     employeeId: '',
     locationId: ''
   });
-
-
-  // const fetchData = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await axios.get("/appointment/getAll");
-  //     setAppointments(response.data?.appointments || []);
-  //   } catch (error) {
-  //     console.error("Error fetching appointments:", error);
-  //     setAppointments([]);
-  //     alert("Failed to fetch appointments. Please try again.");
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -215,6 +202,7 @@ function Appointment() {
     setIsLoading(true);
     try {
       const appointmentData = {
+        customer_id: customerId,
         username: formData.userName.trim(),
         date: formData.date,
         time: formData.time,
@@ -246,7 +234,6 @@ function Appointment() {
           employeeId: "",
           locationId: ""
         });
-        // fetchData();
       } else {
         throw new Error(response.data.msg || "Failed to create appointment");
       }
@@ -264,19 +251,24 @@ function Appointment() {
 
   const handleEmployeeSelect = (employeeId) => {
     setFormData((prev) => ({ ...prev, employeeId }));
+    if (errors.employeeId) {
+      setErrors((prev) => ({ ...prev, employeeId: "" }));
+    }
   };
 
   const handleLocationSelect = (locationId) => {
     setFormData((prev) => ({ ...prev, locationId }));
+    if (errors.locationId) {
+      setErrors((prev) => ({ ...prev, locationId: "" }));
+    }
   };
-
-
 
   const deleteAppointment = async (id) => {
     if (window.confirm("Are you sure you want to delete this appointment?")) {
       try {
         await axios.delete(`/appointment/delete/${id}`);
         setLastCreatedAppointment(null);
+        alert("Appointment deleted successfully!");
       } catch (error) {
         console.error("Error deleting appointment:", error);
         alert("Failed to delete appointment");
@@ -284,12 +276,12 @@ function Appointment() {
     }
   }
 
-
-
   const updateAppointment = async () => {
     if (!selectedAppointment) return;
 
     try {
+      console.log("Starting update for appointment:", selectedAppointment._id);
+
       const updateData = {
         username: selectedAppointment.username,
         date: selectedAppointment.date,
@@ -300,7 +292,11 @@ function Appointment() {
         location_id: selectedAppointment.locationId
       };
 
+      console.log("Update data:", updateData);
+
       const response = await axios.put(`/appointment/update/${selectedAppointment._id}`, updateData);
+
+      console.log("Update successful, response:", response.data);
 
       if (response.data && response.data.appointment) {
         setLastCreatedAppointment(response.data.appointment);
@@ -312,105 +308,42 @@ function Appointment() {
 
     } catch (error) {
       console.error("Error updating appointment:", error);
-      alert("Failed to update appointment");
+      console.error("Error response:", error.response);
+      alert("Failed to update appointment: " + (error.response?.data?.msg || error.message));
     }
   }
+
   const openUpdateModal = (appointment) => {
     setSelectedAppointment({
       _id: appointment._id,
       username: appointment.username,
-      date: appointment.date,
+      date: appointment.date.split('T')[0],
       time: appointment.time,
       category: appointment.category,
       tp: appointment.tp,
-      city: appointment.location_id?.city || '',
-      employeeId: appointment.employee_id?._id || '',
-      locationId: appointment.location_id?._id || ''
+      employeeId: appointment.employee_id?._id || appointment.employee_id,
+      locationId: appointment.location_id?._id || appointment.location_id
     });
     setShowModal(true);
   };
 
-  // const AllAppointmentTable = () => {
-  //   return (
-
-  //     <div className="card mb-4">
-
-  //       <div className="card-header">
-  //         <h2>All Appointments</h2>
-  //       </div>
-  //       <div className="card-body">
-  //         <table className="table table-hover align-middle mb-0">
-  //           <thead className="bg-light">
-  //             <tr>
-  //               <th>Username</th>
-  //               <th>Date</th>
-  //               <th>Time</th>
-  //               <th>Category</th>
-  //               <th>Telephone Number</th>
-  //               <th>Employee</th>
-  //               <th>Location</th>
-  //               <td className="text-end">Action</td>
-  //             </tr>
-  //           </thead>
-  //           <tbody>
-  //             {appointments.map((appointment) => (
-  //               <tr key={appointment._id}>
-  //                 <td>{appointment.username}</td>
-  //                 <td>{new Date(appointment.date).toLocaleDateString()}</td>
-  //                 <td>{appointment.time}</td>
-  //                 <td>{appointment.category}</td>
-  //                 <td>{appointment.tp}</td>
-  //                 <td>
-  //                   {appointment.employee_id?.username || 'N/A'}
-  //                 </td>
-  //                 <td>
-  //                   {appointment.location_id?.city || 'N/A'}
-  //                 </td>
-  //                 <td className="text-end">
-  //                   <button
-  //                     onClick={() => openUpdateModal(appointment)}
-  //                     className="btn btn-outline-warning btn-sm me-2"
-  //                   >
-  //                     Update
-  //                   </button>
-  //                   <button
-  //                     onClick={() => deleteAppointment(appointment._id)}
-  //                     className="btn btn-outline-danger btn-sm"
-  //                   >
-  //                     Delete
-  //                   </button>
-  //                 </td>
-  //               </tr>
-  //             ))}
-  //           </tbody>
-  //         </table>
-  //       </div>
-  //     </div>
-  //   );
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
-  useEffect(() => {
-    const storedUserData = localStorage.getItem('userData');
-
-    if (storedUserData) {
-      const userData = JSON.parse(storedUserData);
-
-      setFormData(prevFormData => ({
-        ...prevFormData,
-        userName: userData.username 
-      }));
-    }
-  }, []);
-
-
+ useEffect(() => {
+  const storedUserData = localStorage.getItem('userData');
+  if (storedUserData) {
+    const userData = JSON.parse(storedUserData);
+    setCustomerId(userData._id || userData.id);
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      userName: userData.username
+    }));
+  }
+}, []);
   const LastAppointmentDetails = ({ appointment, onUpdate, onDelete }) => {
     if (!appointment) {
       return null;
     }
+
+    console.log("Appointment details:", appointment);
 
     return (
       <div className="card mb-4 shadow">
@@ -423,8 +356,12 @@ function Appointment() {
           <p><strong>Time:</strong> {appointment.time}</p>
           <p><strong>Category:</strong> {appointment.category}</p>
           <p><strong>Telephone:</strong> {appointment.tp}</p>
-          <p><strong>Assigned Employee:</strong>{appointment.employee_id?.username || 'N/A'}</p>
-          <p><strong>Location:</strong>  {appointment.location_id?.city || 'N/A'}</p>
+          <p><strong>Assigned Employee: </strong>
+            {appointment.employee_id?.username || 'N/A'}
+          </p>
+          <p><strong>Location: </strong>
+            {appointment.location_id?.city || 'N/A'}
+          </p>
           <p>
             <button
               onClick={() => onUpdate(appointment)}
@@ -439,20 +376,19 @@ function Appointment() {
               Delete
             </button>
           </p>
-          <p></p>
         </div>
       </div>
     );
   };
 
-
   return (
-
     <>
       <Navbar />
       <div className="container mt-4">
+        <div className="mb-4">
+          <LoadEmp />
+        </div>
 
-        {/* <AllAppointmentTable /> */}
         <LastAppointmentDetails
           appointment={lastCreatedAppointment}
           onUpdate={openUpdateModal}
@@ -466,6 +402,7 @@ function Appointment() {
           <div className="card-body">
             <form onSubmit={handleSubmit}>
               <div className="form-group mb-3">
+                <label className="form-label">Username</label>
                 <input
                   type="text"
                   name="userName"
@@ -479,6 +416,7 @@ function Appointment() {
               </div>
 
               <div className="form-group mb-3">
+                <label className="form-label">Date</label>
                 <input
                   type="date"
                   name="date"
@@ -490,6 +428,7 @@ function Appointment() {
               </div>
 
               <div className="form-group mb-3">
+                <label className="form-label">Time</label>
                 <input
                   type="time"
                   name="time"
@@ -501,6 +440,7 @@ function Appointment() {
               </div>
 
               <div className="form-group mb-3">
+                <label className="form-label">Category</label>
                 <select
                   name="category"
                   className={`form-control ${errors.category ? "is-invalid" : ""}`}
@@ -518,6 +458,7 @@ function Appointment() {
               </div>
 
               <div className="form-group mb-3">
+                <label className="form-label">Telephone</label>
                 <input
                   type="tel"
                   name="telephone"
@@ -530,19 +471,23 @@ function Appointment() {
               </div>
 
               <div className="form-group mb-3">
+                <label className="form-label">Employee</label>
                 <EmployeeLoader
                   onSelect={handleEmployeeSelect}
                   selectedId={formData.employeeId}
                   error={errors.employeeId}
                 />
+                {errors.employeeId && <div className="invalid-feedback d-block">{errors.employeeId}</div>}
               </div>
 
               <div className="form-group mb-3">
+                <label className="form-label">Location</label>
                 <LocationLoad
                   onSelect={handleLocationSelect}
                   selectedId={formData.locationId}
                   error={errors.locationId}
                 />
+                {errors.locationId && <div className="invalid-feedback d-block">{errors.locationId}</div>}
               </div>
 
               <button
@@ -563,7 +508,6 @@ function Appointment() {
           setSelectedAppointment={setSelectedAppointment}
           updateAppointment={updateAppointment}
         />
-
       </div>
     </>
   );

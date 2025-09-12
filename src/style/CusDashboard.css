@@ -1,0 +1,492 @@
+/* Navbar */
+.custom-navbar {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  padding: 0.8rem 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Brand */
+.brand-logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #fff !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.brand-icon {
+  margin-right: 8px;
+  font-size: 2rem;
+  color: #369470;
+}
+
+/* Contact Box */
+.contact-box {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  padding: 0.6rem 1rem;
+  border-radius: 14px;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  color: #fff;
+  font-size: 0.9rem;
+  border: 1px solid rgba(52, 136, 108, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.contact-box:hover {
+  background: rgba(43, 129, 65, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(29, 148, 79, 0.4);
+}
+
+/* Contact items */
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+.contact-item .icon {
+  color: #1e9c57;
+  font-size: 1.1rem;
+}
+.contact-item .text {
+  white-space: nowrap;
+}
+
+/* Divider line between contact items */
+.divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Book Now button */
+.book-now-btn {
+  border-radius: 50px;
+  padding: 0.6rem 1.8rem;
+  font-weight: bold;
+  margin-left: 0.8rem;
+  background: linear-gradient(90deg, #16995c, #0e6415);
+  border: none;
+  color: #000;
+  box-shadow: 0 4px 12px rgba(52, 177, 104, 0.4);
+  transition: all 0.3s ease;
+}
+.book-now-btn:hover {
+  background: linear-gradient(90deg, #20a53c, #2cc045);
+  box-shadow: 0 6px 18px rgba(35, 192, 114, 0.6);
+  transform: translateY(-2px);
+}
+.hero-slide {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+}
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+/* Content Center */
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #fff;
+  max-width: 700px;
+  padding: 1rem;
+}
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-shadow: 0px 3px 8px rgba(0, 0, 0, 0.5);
+}
+.hero-content .subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+/* Service Box */
+.service-box {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(103, 236, 170, 0.3);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #f1f1f1;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 1s ease;
+}
+
+/* Small animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Section Title */
+.section-title {
+  font-weight: bold;
+  font-size: 2.2rem;
+  color: #222;
+  position: relative;
+}
+.section-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  margin: 0.5rem auto 0;
+  background: linear-gradient(90deg, #248842, #19af39);
+  border-radius: 2px;
+}
+
+/* Card Container */
+.service-card {
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  animation: fadeInUp 0.8s ease forwards;
+  opacity: 0;
+}
+.service-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 12px 24px rgba(22, 182, 70, 0.4);
+}
+
+/* Card Image Wrapper (Zoom Effect) */
+.card-img-wrapper {
+  overflow: hidden;
+  height: 160px;
+}
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.service-card:hover .card-img {
+  transform: scale(1.15);
+}
+
+/* Card Title */
+.service-title {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin-top: 0.5rem;
+  color: #222;
+}
+
+/* Underline below title */
+.title-underline {
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #38b419, #34bb7c);
+  margin: 0.4rem auto;
+  border-radius: 2px;
+}
+
+/* Card Description */
+.service-desc {
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+/* Main Title */
+.section-title {
+  font-weight: 800;
+  font-size: 2.5rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(90deg, #2ea85d, #36b978);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInDown 1s ease;
+}
+
+/* Highlighted word */
+.section-title span {
+  color: #26ad5f;
+  text-shadow: 0px 0px 10px rgba(41, 201, 113, 0.8);
+}
+
+/* Underline effect */
+.section-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #27ce7b, #23dd77);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+  animation: expandLine 1s ease forwards;
+}
+
+/* Fade + Drop Animation */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Line expand animation */
+@keyframes expandLine {
+  from {
+    width: 0;
+  }
+  to {
+    width: 80px;
+  }
+}
+/* Section Title */
+.section-title {
+  font-weight: 800;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #fff;
+  background: linear-gradient(90deg, #22da31, #1e9e4f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+.section-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #45d385, #07caa0);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+  animation: expandLine 1s ease forwards;
+}
+@keyframes expandLine {
+  from { width: 0; }
+  to { width: 80px; }
+}
+
+/* Slider */
+.vehicle-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 25px;
+  padding: 10px 5px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.vehicle-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card */
+.vehicle-card {
+  min-width: 240px;
+  flex: 0 0 auto;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  scroll-snap-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.vehicle-card:hover {
+  transform: scale(1.12) rotateY(8deg);
+  box-shadow: 0 12px 30px rgba(23, 223, 113, 0.5);
+}
+
+/* Image */
+.vehicle-img {
+  height: 150px;
+  object-fit: contain;
+  background: #fff;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+  padding: 10px;
+  transition: transform 0.4s ease;
+}
+.vehicle-card:hover .vehicle-img {
+  transform: scale(1.15);
+}
+
+/* Title */
+.vehicle-title {
+  font-weight: bold;
+  color: #fff;
+  font-size: 1.1rem;
+  margin-top: 10px;
+  transition: color 0.3s ease;
+}
+.vehicle-card:hover .vehicle-title {
+  color: #13b836;
+  text-shadow: 0px 0px 10px rgba(45, 192, 89, 0.7);
+}
+
+/* Buttons */
+.scroll-btn {
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #2bc96d, #15c498);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease;
+}
+.scroll-btn:hover {
+  transform: scale(1.15);
+}
+/* Footer Base */
+.custom-footer {
+  background: linear-gradient(180deg, #0d0d0d, #1a1a1a);
+  color: #fff;
+  padding: 50px 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating Glow Effect */
+.custom-footer::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(38, 175, 68, 0.3), transparent 70%);
+  border-radius: 50%;
+  animation: floatGlow 6s ease-in-out infinite alternate;
+}
+@keyframes floatGlow {
+  from { transform: translate(0,0); }
+  to { transform: translate(30px,30px); }
+}
+
+/* Footer Logo */
+.footer-logo {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #0eb85a;
+  text-shadow: 0px 0px 12px rgba(57, 187, 107, 0.6);
+}
+.footer-tagline {
+  font-size: 1rem;
+  color: #bbb;
+}
+
+/* Glass Cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(10, 177, 24, 0.3);
+}
+
+/* Headings */
+.footer-heading {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #28af33;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Bottom Section */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 30px;
+  padding-top: 15px;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.profile-button {
+  background: linear-gradient(135deg, #196441, #3dbd23);
+  border: none;
+  border-radius: 50%;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile-button svg {
+  transition: transform 0.3s ease;
+}
+
+.profile-button:hover {
+  background: linear-gradient(135deg, #199241, #2ca892);
+  transform: scale(1.1);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.profile-button:active {
+  transform: scale(0.95);
+}
+
+.profile-button:focus {
+  outline: none; /* outline ain karanawa */
+}

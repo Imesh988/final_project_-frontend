@@ -4,7 +4,7 @@ import { useNavigate , Link ,  } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import { GiAutoRepair } from "react-icons/gi";
-import styles from '../style/Login.module.css'; // This import is correct!
+import styles from '../style/Login.module.css'; 
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -69,7 +69,8 @@ function Login() {
           <form onSubmit={handleLogin}>
             <div className="mb-3 mt-4">
               <label htmlFor="username" className={`${styles.formLabel} fw-semibold`}>
-                Username
+                 <i className="bi bi-person-circle"></i>  Username
+                  
               </label>
               <input
                 id="username"
@@ -84,7 +85,7 @@ function Login() {
 
             <div className="mb-3">
               <label htmlFor="password" className={`${styles.formLabel} fw-semibold`}>
-                Password
+               <i class="bi bi-key-fill"></i>   Password
               </label>
               <input
                 id="password"

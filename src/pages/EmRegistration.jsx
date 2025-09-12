@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '../style/Employee.css';
 import LocationLoad from "./LocationLoad";
+import Navbar from "../layout/Naviation.jsx";
 
 const CreateEmployeeForm = ({ form, setForm, createEmployee }) => {
   const [errors, setErrors] = useState({});
@@ -34,7 +35,6 @@ const CreateEmployeeForm = ({ form, setForm, createEmployee }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-
     if (!form.nic) {
       setErrors({ ...errors, nic: 'NIC is required' });
       return;
@@ -56,115 +56,133 @@ const CreateEmployeeForm = ({ form, setForm, createEmployee }) => {
       return;
     }
 
-
-
     createEmployee();
-
   };
 
   return (
-    <div className="card mb-4">
-      <div className="card-header">
-        <h3>Create New Employee</h3>
+    <div className="card mb-4 employee-card shadow-sm rounded-3">
+      <div className="card-header bg-dark text-white d-flex align-items-center justify-content-center">
+        <h3 className="mb-0">
+          <i className="bi bi-person-badge me-2"></i> Employee
+        </h3>
       </div>
-      <div className="card-body">
+      <div className="card-body p-4">
         <form onSubmit={handleSubmit}>
-          <div className="row">
-            <div className="col-md-12">
-              <div className="mb-3">
-                <label className="form-label">NIC</label>
-                <input
-                  type="text"
-                  name="nic"
-                  className={`form-control ${errors.nic ? 'is-invalid' : ''}`}
-                  placeholder="Employee NIC (e.g. 123456789V or 200012345678)"
-                  value={form.nic}
-                  onChange={handleInputChange}
-                />
-                {errors.nic && (
-                  <div className="invalid-feedback">
-                    {errors.nic}
-                  </div>
-                )}
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Username</label>
-                <input
-                  type="text"
-                  name="username"
-                  className="form-control"
-                  placeholder="Username"
-                  value={form.username}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className={`form-control ${errors.password ? 'is-invalid' : ''}`}
-                  placeholder="Password"
-                  value={form.password}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Full Name</label>
-                <input
-                  type="text"
-                  name="full_name"
-                  className="form-control"
-                  placeholder="Full Name"
-                  value={form.full_name}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Description</label>
-                <input
-                  type="text"
-                  name="description"
-                  className="form-control"
-                  placeholder="description"
-                  value={form.description}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">WhatsApp Number</label>
-                <input
-                  type="Number"
-                  name="whathappNo"
-                  className="form-control"
-                  placeholder="WhatsApp No"
-                  value={form.whathappNo}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">City</label>
-                <input
-                  type="text"
-                  name="city"
-                  className="form-control"
-                  placeholder="City"
-                  value={form.city}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="mb-3">
-                <LocationLoad
-                  onSelect={handleLocationSelect}
-                  selectedId={form.location_id}
-                  error={errors.location}
-                />
-              </div>
-              <div className="mb-3">
-                <button type="submit" className="btn btn-primary">
-                  Create Employee
-                </button>
-              </div>
+          <div className="row g-3">
+            <div className="col-12">
+              <label className="form-label fw-semibold">
+                <i className="bi bi-person-badge me-2"></i> NIC
+              </label>
+              <input
+                type="text"
+                name="nic"
+                className={`form-control ${errors.nic ? "is-invalid" : ""}`}
+                placeholder="123456789V or 200012345678"
+                value={form.nic}
+                onChange={handleInputChange}
+              />
+              {errors.nic && <div className="invalid-feedback">{errors.nic}</div>}
+            </div>
+
+            <div className="col-12 col-md-6">
+              <label className="form-label fw-semibold">
+                <i className="bi bi-person me-2"></i> Username
+              </label>
+              <input
+                type="text"
+                name="username"
+                className="form-control"
+                placeholder="Username"
+                value={form.username}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="col-12 col-md-6">
+              <label className="form-label fw-semibold">
+                <i className="bi bi-lock me-2"></i> Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                className={`form-control ${errors.password ? "is-invalid" : ""}`}
+                placeholder="Password"
+                value={form.password}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="col-12">
+              <label className="form-label fw-semibold">
+                <i className="bi bi-person-lines-fill me-2"></i> Full Name
+              </label>
+              <input
+                type="text"
+                name="full_name"
+                className="form-control"
+                placeholder="Full Name"
+                value={form.full_name}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="col-12">
+              <label className="form-label fw-semibold">
+                <i className="bi bi-card-text me-2"></i> Description
+              </label>
+              <input
+                type="text"
+                name="description"
+                className="form-control"
+                placeholder="Description"
+                value={form.description}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="col-12 col-md-6">
+              <label className="form-label fw-semibold">
+                <i className="bi bi-whatsapp me-2"></i> WhatsApp Number
+              </label>
+              <input
+                type="number"
+                name="whathappNo"
+                className="form-control"
+                placeholder="WhatsApp No"
+                value={form.whathappNo}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="col-12 col-md-6">
+              <label className="form-label fw-semibold">
+                <i className="bi bi-geo-alt me-2"></i> City
+              </label>
+              <input
+                type="text"
+                name="city"
+                className="form-control"
+                placeholder="City"
+                value={form.city}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div className="col-12">
+              <LocationLoad
+                onSelect={handleLocationSelect}
+                selectedId={form.location_id}
+                error={errors.location}
+              />
+            </div>
+
+            <div className="col-12 mt-3 d-grid">
+              <button
+                type="submit"
+                className="btn btn-dark btn-lg d-flex align-items-center justify-content-center gap-2"
+              >
+                <i className="bi bi-plus-circle"></i> Submit
+              </button>
             </div>
           </div>
         </form>
@@ -195,7 +213,7 @@ const UpdateEmployeeModal = ({
     >
       <div className="modal-dialog">
         <div className="modal-content">
-          <div className="modal-header">
+          <div className="modal-header bg-dark text-white">
             <h5 className="modal-title">Update Employee</h5>
             <button
               type="button"
@@ -206,7 +224,9 @@ const UpdateEmployeeModal = ({
           <div className="modal-body">
             <form>
               <div className="mb-3">
-                <label className="form-label">Username</label>
+                <label className="form-label">
+                  <i className="bi bi-person me-2"></i>
+                  Username</label>
                 <input
                   type="text"
                   name="username"
@@ -215,18 +235,10 @@ const UpdateEmployeeModal = ({
                   onChange={handleInputChange}
                 />
               </div>
-              {/* <div className="mb-3">
-                <label className="form-label">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  className="form-control"
-                  value={selectedEmployee.password}
-                  onChange={handleInputChange}
-                />
-              </div> */}
               <div className="mb-3">
-                <label className="form-label">Full Name</label>
+                <label className="form-label">
+                  <i className="bi bi-person-lines-fill me-2"></i>
+                  Full Name</label>
                 <input
                   type="text"
                   name="full_name"
@@ -236,7 +248,9 @@ const UpdateEmployeeModal = ({
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label">Telephone</label>
+                <label className="form-label">
+                  <i className="bi bi-card-text me-2"></i>
+                  Description</label>
                 <input
                   type="text"
                   name="description"
@@ -246,7 +260,9 @@ const UpdateEmployeeModal = ({
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label">WhatsApp</label>
+                <label className="form-label">
+                  <i className="bi bi-whatsapp me-2"></i>
+                  WhatsApp</label>
                 <input
                   type="text"
                   name="whathappNo"
@@ -256,7 +272,9 @@ const UpdateEmployeeModal = ({
                 />
               </div>
               <div className="mb-3">
-                <label className="form-label">City</label>
+                <label className="form-label">
+                  <i className="bi bi-geo-alt me-2"></i>
+                  City</label>
                 <input
                   type="text"
                   name="city"
@@ -266,33 +284,33 @@ const UpdateEmployeeModal = ({
                 />
               </div>
 
-               <div className="form-group mb-3">
-                      <LocationLoad
-                        onSelect={(locationId) => {
-                          setSelectedEmployee(prev => ({
-                            ...prev,
-                            location_id: locationId
-                          }));
-                        }}
-                        selectedId={selectedEmployee.locationId}
-                      />
-                    </div>
+              <div className="form-group mb-3">
+                <LocationLoad
+                  onSelect={(locationId) => {
+                    setSelectedEmployee(prev => ({
+                      ...prev,
+                      location_id: locationId
+                    }));
+                  }}
+                  selectedId={selectedEmployee.locationId}
+                />
+              </div>
             </form>
           </div>
           <div className="modal-footer">
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary d-flex align-items-center "
               onClick={() => setShowModal(false)}
             >
-              Close
+              <i className="bi bi-x-circle me-2"></i> Close
             </button>
             <button
               type="button"
-              className="btn btn-primary"
+              className="btn btn-dark d-flex align-items-center"
               onClick={updateEmployee}
             >
-              Save Changes
+              <i className="bi bi-save2 me-2"></i> Save Changes
             </button>
           </div>
         </div>
@@ -325,11 +343,6 @@ function EmRegistration() {
     city: "",
     location_id: ""
   });
-
-  const openUpdateModal = (employee) => {
-    setSelectedEmployee(employee);
-    setShowModal(true);
-  };
 
   const fetchEmployees = async () => {
     try {
@@ -364,9 +377,7 @@ function EmRegistration() {
         alert("Employee with this NIC already exists");
       } else {
         alert("Failed to create employee");
-
       }
-
     }
   };
 
@@ -393,85 +404,165 @@ function EmRegistration() {
     }
   };
 
+  const openUpdateModal = (employee) => {
+    setSelectedEmployee(employee);
+    setShowModal(true);
+  };
+
   useEffect(() => {
     fetchEmployees();
   }, []);
 
   const AllEmployeesTable = () => {
-    if (!Array.isArray(employees)) {
-      return <div>Loading...</div>;
+    const [filterEmployees, setFilterEmployees] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    useEffect(() => {
+      if (!searchTerm.trim()) {
+        setFilterEmployees(employees);
+        return;
+      }
+      const term = searchTerm.toLowerCase();
+      const filtered = employees.filter((employee) => {
+        return (
+          employee.username?.toLowerCase().includes(term) ||
+          employee.description?.toLowerCase().includes(term) ||
+          employee.location_id?.city?.toLowerCase().includes(term)
+        );
+      });
+
+      setFilterEmployees(filtered);
+    }, [searchTerm, employees]);
+
+    const handleSearchChange = (e) => {
+      setSearchTerm(e.target.value);
+    };
+
+    if (isLoading) {
+      return (
+        <div className="card">
+          <div className="card-body text-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <p className="mt-2">Loading employees...</p>
+          </div>
+        </div>
+      );
     }
-    if (employees.length === 0) {
-      return <div>No employees found.</div>;
+
+    if (error) {
+      return (
+        <div className="card">
+          <div className="card-body text-center text-danger">
+            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+            {error}
+            <button className="btn btn-sm btn-outline-primary ms-3" onClick={fetchEmployees}>
+              Try Again
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (!Array.isArray(employees) || employees.length === 0) {
+      return (
+        <div className="card">
+          <div className="card-body text-center">
+            <i className="bi bi-people display-4 text-muted"></i>
+            <p className="mt-3 text-muted">No employees found</p>
+          </div>
+        </div>
+      );
     }
 
     return (
       <div className="card">
-        <div className="card-header">
-          <h3>All Employees</h3>
+        <div className="card-header d-flex align-items-center bg-dark text-white">
+          <i className="bi bi-people-fill me-2"></i>
+          <h3 className="mb-0">All Employees</h3>
         </div>
-        <div className="card-body">
-          <table className="table table-hover align-middle mb-0">
-            <thead className="bg-light">
-              <tr>
-                <th>Username</th>
-                <th>Full Name</th>
-                <th>Description</th>
-                <th>WhatsApp No</th>
-                <th>City</th>
-                <th>Working Location</th>
-                <th className="text-end">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {employees.map((employee) => (
-                <tr key={employee._id}>
-                  <td>{employee.username}</td>
-                  <td>{employee.full_name}</td>
-                  <td>{employee.description}</td>
-                  <td>{employee.whathappNo}</td>
-                  <td>{employee.city}</td>
-                  <td>
-                    {employee.location_id?.city || 'N/A'}
-                  </td>
-                  <td className="text-end">
-                    <button
-                      onClick={() => openUpdateModal(employee)}
-                      className="btn btn-outline-warning btn-sm me-2"
-                    >
-                      <i className="bi bi-pencil-square me-1"></i>Update
-                    </button>
-                    <button
-                      onClick={() => deleteEmployee(employee._id)}
-                      className="btn btn-outline-danger btn-sm"
-                    >
-                      <i className="bi bi-trash me-1"></i>Delete
-                    </button>
-                  </td>
+        <div className="input-group p-3 border-bottom">
+          <span className="input-group-text">
+            <i className="bi bi-search"></i>
+          </span>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search by username, description, or location"
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+        </div>
+        <div className="card-body p-0">
+          <div className="table-responsive">
+            <table className="table table-hover align-middle mb-0">
+              <thead className="bg-light">
+                <tr>
+                  <th><i className="bi bi-person-circle me-2"></i> Username</th>
+                  <th><i className="bi bi-person-badge me-2"></i> Full Name</th>
+                  <th><i className="bi bi-card-text me-2"></i> Description</th>
+                  <th><i className="bi bi-whatsapp me-2"></i> WhatsApp No</th>
+                  <th><i className="bi bi-geo-alt me-2"></i> City</th>
+                  <th><i className="bi bi-building me-2"></i> Location</th>
+                  <th className="text-end"><i className="bi bi-gear me-2"></i> Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filterEmployees.map((employee) => (
+                  <tr key={employee._id}>
+                    <td>{employee.username}</td>
+                    <td>{employee.full_name}</td>
+                    <td>{employee.description}</td>
+                    <td>{employee.whathappNo}</td>
+                    <td>{employee.city}</td>
+                    <td>
+                      {employee.location_id?.city || 'N/A'}
+                    </td>
+                    <td className="text-end">
+                      <button
+                        onClick={() => openUpdateModal(employee)}
+                        className="btn btn-outline-warning btn-sm me-2"
+                      >
+                        <i className="bi bi-pencil-square me-1"></i>
+                      </button>
+                      <button
+                        onClick={() => deleteEmployee(employee._id)}
+                        className="btn btn-outline-danger btn-sm"
+                      >
+                        <i className="bi bi-trash me-1"></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     );
   };
 
   return (
-    <div className="container mt-4">
-      <CreateEmployeeForm
-        form={form}
-        setForm={setForm}
-        createEmployee={createEmployee}
-      />
-      <AllEmployeesTable />
-      <UpdateEmployeeModal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        selectedEmployee={selectedEmployee}
-        setSelectedEmployee={setSelectedEmployee}
-        updateEmployee={updateEmployee}
-      />
+    <div>
+      <Navbar />
+      <div className="container mt-4">
+        <CreateEmployeeForm
+          form={form}
+          setForm={setForm}
+          createEmployee={createEmployee}
+        />
+        <AllEmployeesTable />
+        <UpdateEmployeeModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          selectedEmployee={selectedEmployee}
+          setSelectedEmployee={setSelectedEmployee}
+          updateEmployee={updateEmployee}
+        />
+      </div>
     </div>
   );
 }

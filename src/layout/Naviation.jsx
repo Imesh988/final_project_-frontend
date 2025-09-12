@@ -13,6 +13,9 @@ import {
 } from "react-icons/fa";
 import { GiAutoRepair } from "react-icons/gi";
 import './Navigation.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -111,7 +114,7 @@ const Navbar = () => {
           <FaPhoneAlt className="emergency-icon" />
           <div>
             <span className="emergency-label">Emergency Service</span>
-            <span className="emergency-number">077 123 4567</span>
+            <span className="emergency-number">076 5616 812</span>
           </div>
         </div>
 
@@ -126,31 +129,34 @@ const Navbar = () => {
         </button>
 
         <div className={`collapse navbar-collapse ${isOpen ? 'show' : ''}`} id="navbarSupportedContent">
-          <ul className="navbar-nav mx-auto mb-2 mb-lg-0">
-            <li className="nav-item">
+          <ul className="navbar-nav mx-auto mb-2 mb-lg-0 me-4">
+            {/* <li className="nav-item">
               <Link className="nav-link service-link" to="/" onClick={() => setIsOpen(false)}>
                 <span className="link-number">01.</span> Home
               </Link>
             </li>
+              <li className="nav-item">
+                <Link className="nav-link service-link" to="/services" onClick={() => setIsOpen(false)}>
+                  <span className="link-number">02.</span> Services
+                </Link>
+              </li> */}
             <li className="nav-item">
-              <Link className="nav-link service-link" to="/services" onClick={() => setIsOpen(false)}>
-                <span className="link-number">02.</span> Services
+              <Link className="nav-link service-link d-flex align-items-center" to="/" onClick={() => setIsOpen(false)}>
+                <i className="bi bi-speedometer2 me-2"></i> {/* Dashboard icon */}
+                <span className="link-number">03.</span> Dashboard
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link service-link" to="/booking" onClick={() => setIsOpen(false)}>
-                <span className="link-number">03.</span> Book Online
+              <Link className="nav-link service-link d-flex align-items-center" to="/cuslogin" onClick={() => setIsOpen(false)}>
+                <i className="bi bi-box-arrow-in-right me-2"></i> {/* Login icon */}
+                <span className="link-number">04.</span> Login
               </Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link service-link" to="/about" onClick={() => setIsOpen(false)}>
-                <span className="link-number">04.</span> About Us
-              </Link>
-            </li>
+
           </ul>
 
           <div className="d-flex align-items-center nav-actions">
-            <form className="d-flex me-3 search-box" role="search" onSubmit={handleSearch}>
+            {/* <form className="d-flex me-3 search-box" role="search" onSubmit={handleSearch}>
               <input
                 className="form-control search-input"
                 type="search"
@@ -162,7 +168,7 @@ const Navbar = () => {
               <button className="btn search-btn" type="submit">
                 <FaSearch className="search-icon" />
               </button>
-            </form>
+            </form> */}
 
             <div className="user-dropdown-container" ref={dropdownRef}>
               <button
@@ -173,27 +179,27 @@ const Navbar = () => {
                 <FaUser />
               </button>
 
-             {showDropdown && (
+              {showDropdown && (
                 <div className="user-dropdown-menu">
                   {isLoggedIn ? (
                     <>
                       <div className="dropdown-header">
                         <div className="user-welcome">Welcome back!</div>
                         {userData && (
-                          <div className="user-name">{ userData.username}</div>
+                          <div className="user-name">{userData.username}</div>
                         )}
                       </div>
                       <div className="dropdown-divider"></div>
-                      <Link 
-                        to="/account" 
+                      <Link
+                        to="/customer-details"
                         className="dropdown-item"
                         onClick={() => setShowDropdown(false)}
                       >
                         <FaUserCircle className="dropdown-icon" />
                         My Account
                       </Link>
-                      <Link 
-                        to="/settings" 
+                      <Link
+                        to="/settings"
                         className="dropdown-item"
                         onClick={() => setShowDropdown(false)}
                       >
@@ -201,7 +207,7 @@ const Navbar = () => {
                         Settings
                       </Link>
                       <div className="dropdown-divider"></div>
-                      <button 
+                      <button
                         className="dropdown-item sign-out-btn"
                         onClick={signOut}
                       >
@@ -211,16 +217,16 @@ const Navbar = () => {
                     </>
                   ) : (
                     <>
-                      <Link 
-                        to="/cuslogin" 
+                      <Link
+                        to="/cuslogin"
                         className="dropdown-item"
                         onClick={() => setShowDropdown(false)}
                       >
                         <FaUserCircle className="dropdown-icon" />
                         Login
                       </Link>
-                      <Link 
-                        to="/register" 
+                      <Link
+                        to="/register"
                         className="dropdown-item"
                         onClick={() => setShowDropdown(false)}
                       >
