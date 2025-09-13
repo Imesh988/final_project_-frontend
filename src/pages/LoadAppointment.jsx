@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
-import { Link } from "react-router-dom";
-import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useNavigate } from 'react-router-dom';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../style/LoadAppointment.css';
 
-const SearchComponent = (
-  { searchTerm,
-    setSearchTerm,
-    searchCategory,
-    setSearchCategory,
-    searchDate,
-    setSearchDate,
-    searchTime,
-    setSearchTime,
-
-    onSearch }
-) => {
+// Search Component
+const SearchComponent = ({
+  searchTerm,
+  setSearchTerm,
+  searchCategory,
+  setSearchCategory,
+  searchDate,
+  setSearchDate,
+  searchTime,
+  setSearchTime,
+  onSearch
+}) => {
   const handleSearch = (e) => {
     e.preventDefault();
     onSearch(searchTerm, searchCategory, searchDate, searchTime);
@@ -51,7 +50,6 @@ const SearchComponent = (
                 <option value="date">Date</option>
                 <option value="time">Time</option>
               </select>
-
             </div>
 
             {searchCategory === 'date' && (
@@ -88,7 +86,6 @@ const SearchComponent = (
   );
 };
 
-
 function LoadAppointment() {
   const [appointments, setAppointments] = useState([]);
   const [filteredAppointments, setFilteredAppointments] = useState([]);
@@ -100,13 +97,12 @@ function LoadAppointment() {
   const [searchTime, setSearchTime] = useState('');
   const navigate = useNavigate();
 
+  // Fetch appointments from server
   const fetchAppointment = async () => {
     try {
       const response = await axios.get('/appointment/getAll');
-
       if (response.data && Array.isArray(response.data.appointments)) {
         const sentAppointmentIds = JSON.parse(localStorage.getItem('whatsAppSentAppointmentIds') || '[]');
-
         const updatedAppointments = response.data.appointments.map(app => ({
           ...app,
           isWhatsAppSent: sentAppointmentIds.includes(app._id)
@@ -114,7 +110,6 @@ function LoadAppointment() {
         setAppointments(updatedAppointments);
         setFilteredAppointments(updatedAppointments);
       } else {
-        console.warn("Invalid response format:", response.data);
         setAppointments([]);
         setFilteredAppointments([]);
       }
@@ -126,6 +121,7 @@ function LoadAppointment() {
     }
   };
 
+  // Delete appointment
   const deleteAppointment = async (id) => {
     try {
       if (window.confirm("Are you sure you want to delete this appointment?")) {
@@ -133,16 +129,15 @@ function LoadAppointment() {
         const sentAppointmentIds = JSON.parse(localStorage.getItem('whatsAppSentAppointmentIds') || '[]');
         const updatedSentIds = sentAppointmentIds.filter(sentId => sentId !== id);
         localStorage.setItem('whatsAppSentAppointmentIds', JSON.stringify(updatedSentIds));
-
         fetchAppointment();
       }
-
     } catch (error) {
       console.error("Error deleting appointment:", error);
       alert("Failed to delete appointment");
     }
   }
 
+  // Filter appointments
   const filterAppointments = (term, category, date, time) => {
     if (!term.trim() && !date && !time) {
       setFilteredAppointments(appointments);
@@ -150,11 +145,8 @@ function LoadAppointment() {
     }
 
     const filtered = appointments.filter(appointment => {
-
-      
-     if (term.trim() && category !== 'date' && category !== 'time') {
+      if (term.trim() && category !== 'date' && category !== 'time') {
         const searchValue = term.toLowerCase();
-        
         switch (category) {
           case 'username':
             return appointment.username?.toLowerCase().includes(searchValue);
@@ -170,20 +162,17 @@ function LoadAppointment() {
             return true;
         }
       }
-      
+
       if (category === 'date' && date) {
         const appointmentDate = new Date(appointment.date).toISOString().split('T')[0];
         return appointmentDate === date;
       }
-      
+
       if (category === 'time' && time) {
-        const normalizeTime = (timeStr) => {
-          return timeStr.split(':').slice(0, 2).join(':');
-        };
-        
+        const normalizeTime = (timeStr) => timeStr.split(':').slice(0, 2).join(':');
         return normalizeTime(appointment.time) === normalizeTime(time);
       }
-      
+
       return true;
     });
 
@@ -194,8 +183,6 @@ function LoadAppointment() {
     filterAppointments(term, category, date, time);
   };
 
-
-
   useEffect(() => {
     fetchAppointment();
   }, []);
@@ -204,9 +191,23 @@ function LoadAppointment() {
     setFilteredAppointments(appointments);
   }, [appointments]);
 
-
+  // WhatsApp click handler
   const handleWhatsAppClick = (appointmentId, username, tp) => {
     const phoneNumberToSend = String(tp).startsWith('0') ? String(tp) : '0' + String(tp);
+
+    // Update localStorage
+    const sentAppointmentIds = JSON.parse(localStorage.getItem('whatsAppSentAppointmentIds') || '[]');
+    if (!sentAppointmentIds.includes(appointmentId)) {
+      sentAppointmentIds.push(appointmentId);
+      localStorage.setItem('whatsAppSentAppointmentIds', JSON.stringify(sentAppointmentIds));
+
+      // Update state to reflect sent status
+      setAppointments(prev => prev.map(app =>
+        app._id === appointmentId ? { ...app, isWhatsAppSent: true } : app
+      ));
+    }
+
+    // Navigate to WhatsApp page
     navigate(`/whatsapp/${encodeURIComponent(username)}/${encodeURIComponent(phoneNumberToSend)}/${appointmentId}`);
   };
 
@@ -220,26 +221,22 @@ function LoadAppointment() {
         searchDate={searchDate}
         setSearchDate={setSearchDate}
         searchTime={searchTime}
-          setSearchTime={setSearchTime}
+        setSearchTime={setSearchTime}
         onSearch={handleSearch}
       />
       <div className="card mb-4 appointments-main-card">
-
         <div className="card-body">
           {loading && <p>Loading appointments...</p>}
           {error && <p className="text-danger">{error}</p>}
           {!loading && !error && filteredAppointments.length === 0 && <p>No appointments found.</p>}
 
           {!loading && !error && filteredAppointments.length > 0 && (
-
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
               {filteredAppointments.map((appointment) => (
                 <div className="col appointment-card" key={appointment._id}>
                   <div className="card h-100 shadow-sm">
                     <div className="card-body">
-                      <h5 className="card-title">
-                        {appointment.username}
-                      </h5>
+                      <h5 className="card-title">{appointment.username}</h5>
                       <p className="card-text mb-1"><strong>Date:</strong> {new Date(appointment.date).toLocaleDateString()}</p>
                       <p className="card-text mb-1"><strong>Time:</strong> {appointment.time}</p>
                       <p className="card-text mb-1"><strong>Category:</strong> {appointment.category}</p>

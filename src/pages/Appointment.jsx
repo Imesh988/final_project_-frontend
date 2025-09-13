@@ -326,18 +326,40 @@ function Appointment() {
     });
     setShowModal(true);
   };
+  useEffect(() => {
+    const loadUser = () => {
+      try {
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+          const userData = JSON.parse(storedUserData);
+          setCustomerId(userData._id || userData.id);
+          setFormData(prevFormData => ({
+            ...prevFormData,
+            userName: userData.username || ""
+          }));
+        }
+      } catch (err) {
+        console.error("Failed to load userData from localStorage", err);
+      }
+    };
 
- useEffect(() => {
-  const storedUserData = localStorage.getItem('userData');
-  if (storedUserData) {
-    const userData = JSON.parse(storedUserData);
-    setCustomerId(userData._id || userData.id);
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      userName: userData.username
-    }));
-  }
-}, []);
+    // called when storage changes in other tabs/windows
+    const onStorage = (e) => {
+      if (!e || e.key === 'userData') {
+        loadUser();
+      }
+    };
+
+    loadUser(); // initial load
+    window.addEventListener('user-updated', loadUser); // custom event from CustomerDetails
+    window.addEventListener('storage', onStorage); // cross-tab updates
+
+    return () => {
+      window.removeEventListener('user-updated', loadUser);
+      window.removeEventListener('storage', onStorage);
+    };
+  }, []);
+
   const LastAppointmentDetails = ({ appointment, onUpdate, onDelete }) => {
     if (!appointment) {
       return null;
